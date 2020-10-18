@@ -1,9 +1,9 @@
 class Experience {
-    constructor(title, description, dateStart, dateEnd, titleIcon = null, titleDescription = "", titleLink = "", keywords = []) {
+    constructor(title, description, startDate, endDate, titleIcon = null, titleDescription = "", titleLink = "", keywords = []) {
         this.title = title;
         this.description = description;
-        this.dateStart = dateStart;
-        this.dateEnd = dateEnd;
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.titleIcon = titleIcon;
         this.titleDescription = titleDescription;
         this.titleLink = titleLink;
@@ -12,8 +12,8 @@ class Experience {
 
     getTitle() { return this.title; }
     getDescription() { return this.description; }
-    getDateStart() { return this.dateStart; }
-    getDateEnd() { return this.dateEnd; }
+    getStartDate() { return this.startDate; }
+    getEndDate() { return this.endDate; }
     getTitleIcon() { return this.titleIcon; }
     getTitleDescription() { return this.titleDescription; }
     getTitleLink() { return this.titleLink; }
