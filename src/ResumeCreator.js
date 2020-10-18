@@ -1,21 +1,6 @@
 import Rect from "./Rect";
 
 class ResumeCreator {
-    getTextHeight(text, width) {
-        if (text.length === 0)
-            return 0;
-
-        const paragraphs = text.split("\n");
-        let height = 0;
-
-        for (let i = 0; i < paragraphs.length; ++i) {
-            const lines = this.doc.splitTextToSize(paragraphs[i], width);
-            height += lines.length * this.doc.getLineHeight();
-        }
-
-        return height;
-    }
-
     printText(rect, text, visible = true) {
         if (text.length === 0)
             return 0;
@@ -30,30 +15,6 @@ class ResumeCreator {
         }
 
         return y;
-    }
-
-    getKeywordsHeight(keywords, width) {
-        const MARGIN = 3;
-        const SPACING = 3;
-
-        if (keywords.length === 0)
-            return 0;
-
-        let x = 0;
-        let lines = 1
-
-        for (let i = 0; i < keywords.length; ++i) {
-            const textWidth = this.doc.getTextWidth(keywords[i]);
-
-            if (x + textWidth + 2 * MARGIN > width) {
-                x = 0;
-                ++lines;
-            }
-
-            x += textWidth + 2 * MARGIN + SPACING;
-        }
-
-        return lines * (this.doc.getFontSize() + 2 * MARGIN + SPACING) - SPACING;
     }
 
     printKeywords(rect, keywords, visible = true) {
@@ -90,48 +51,6 @@ class ResumeCreator {
         this.doc.setTextColor(textColor);
 
         return y + keywordRectHeight;
-    }
-
-    getExperienceHeight(experience, width) {
-        const SPACING1 = 3;
-        const SPACING2 = 5;
-        const DATE_WIDTH = 50;
-        const TITLE_FONT_SIZE = 12;
-        const TITLE_DESCRIPTION_FONT_SIZE = 11;
-        const KEYWORDS_FONT_SIZE = 10;
-        const DESCRIPTION_FONT_SIZE = 10;
-
-        const contentWidth = width - DATE_WIDTH - SPACING2;
-        let iconSize = 0;
-        let titleWidth = contentWidth;
-        
-        if (experience.getTitleIcon()) {
-            iconSize = TITLE_FONT_SIZE + TITLE_DESCRIPTION_FONT_SIZE + SPACING1;
-            titleWidth -= iconSize + SPACING1;
-        }
-
-        let titleHeight = this.getTextHeight(experience.getTitle(), titleWidth);
-        
-        if (experience.getTitleDescription()) {
-            this.doc.setFont(this.doc.getFont().fontName, "italic");
-            this.doc.setFontSize(TITLE_DESCRIPTION_FONT_SIZE);
-            titleHeight += SPACING1 + this.getTextHeight(experience.getTitleDescription(), titleWidth);
-        }
-
-        let height = Math.max(iconSize, titleHeight);
-
-        if (experience.getKeywords().length > 0) {
-            this.doc.setFont(this.doc.getFont().fontName, "normal");
-            this.doc.setFontSize(KEYWORDS_FONT_SIZE);
-            height += SPACING1 + this.getKeywordsHeight(experience.getKeywords(), contentWidth);
-        }
-
-        if (experience.getDescription()) {
-            this.doc.setFontSize(DESCRIPTION_FONT_SIZE);
-            height += SPACING1 + this.getTextHeight(experience.getDescription(), contentWidth);
-        }
-
-        return height;
     }
 
     printExperience(rect, experience, visible = true) {
@@ -202,16 +121,6 @@ class ResumeCreator {
         }
 
         return y;
-    }
-
-    getTitleHeight(title, width) {
-        const SPACING = 5;
-        const TITLE_FONT_SIZE = 13;
-
-        this.doc.setFont(this.doc.getFont().fontName, "bold");
-        this.doc.setFontSize(TITLE_FONT_SIZE);
-        
-        return this.getTextHeight(title) + SPACING;
     }
 
     printTitle(rect, title, visible = true) {
