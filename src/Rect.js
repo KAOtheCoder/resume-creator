@@ -1,11 +1,11 @@
 class Rect {
     constructor(x, y, width, height) {
-      this.x = x;
-      this.y = y;
-      this.width = width;
-      this.height = height;
+    this.x = x;
+    this.y = y;
+    this.width = width;
+    this.height = height;
     }
-  
+
     getX() { return this.x; }
     getY() { return this.y; }
     getWidth() { return this.width; }
@@ -23,6 +23,10 @@ class Rect {
     setTop(top) { this.y = top; }
     setRight(right) { this.width = right - this.x; }
     setBottom(bottom) { this.height = bottom - this.y; }
+
+    translate(dx, dy) {
+
+    }
 }
 
 export default Rect;

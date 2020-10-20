@@ -20,19 +20,6 @@ class App extends React.Component {
     }
 
     createPdf() {
-        const doc = new jsPDF("portrait", "pt", "a4");
-        
-        const MM_TO_PT = 72 / 25.4;
-        const LEFT_MARGIN = 30 * MM_TO_PT;
-        const TOP_MARGIN = 30 * MM_TO_PT;
-        const RIGHT_MARGIN = 30 * MM_TO_PT;
-        const BOTTOM_MARGIN = 30 * MM_TO_PT;
-
-        const contentRect = new Rect(LEFT_MARGIN, 
-            TOP_MARGIN, 
-            doc.internal.pageSize.getWidth() - (LEFT_MARGIN + RIGHT_MARGIN), 
-            doc.internal.pageSize.getHeight() - (TOP_MARGIN + BOTTOM_MARGIN));
-
         const LOREM_IPSUM = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus id eros turpis. Vivamus tempor urna vitae sapien mollis molestie. Vestibulum in "
             + "lectus non enim bibendum laoreet at at libero. Etiam malesuada erat sed sem blandit in varius orci porttitor. Sed at sapien urna. Fusce augue ipsum, molestie et "
             + "adipiscing at, varius quis enim. Morbi sed magna est, vel vestibulum urna. Sed tempor ipsum vel mi pretium at elementum urna tempor. Nulla faucibus consectetur felis, "
@@ -47,13 +34,12 @@ class App extends React.Component {
             LOREM_IPSUM, 
             "2020-09", "current", 
             icon,
-            "Istanbul, Turkey",
-            "https://www.google.com/",
+            "A Hello World Program Like Any Other",
+            "https://www.google.com/search?q=hello+world",
             ["javascript", "ReactJS", "jsPDF"]);
 
         const resumeCreator = new ResumeCreator();
-        resumeCreator.doc = doc;
-        resumeCreator.printExperienceList(contentRect, "Personal Projects", [experience, experience]);
+        const doc = resumeCreator.createResume("Personal Projects", [experience, experience, experience, experience, experience]);
         doc.output("dataurlnewwindow");
         //doc.save("cv.pdf");
     }
