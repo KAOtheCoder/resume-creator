@@ -1,8 +1,7 @@
 import jsPDF from "jspdf";
 import React from 'react';
-import Rect from "./Rect";
 import ResumeCreator from "./ResumeCreator";
-import Experience from "./Experience";
+import { Experience, ExperienceList, Information, InformationList, Resume } from "./Resume";
 
 import './App.css';
 
@@ -27,19 +26,34 @@ class App extends React.Component {
             + "Pellentesque eu sapien at diam porttitor venenatis nec vitae velit. Donec ultrices volutpat lectus eget vehicula. Nam eu erat mi, in pulvinar eros. Mauris viverra porta "
             + "orci, et vehicula lectus sagittis id. Nullam at magna vitae nunc fringilla posuere. Duis volutpat malesuada ornare. Nulla in eros metus. Vivamus a posuere libero.";
 
-        let icon = new Image();
+        const icon = new Image();
         icon.src = "logo192.png";
         
         const experience = new Experience("Hello World", 
-            LOREM_IPSUM, 
-            "2020-09", "current", 
-            icon,
-            "A Hello World Program Like Any Other",
-            "https://www.google.com/search?q=hello+world",
-            ["javascript", "ReactJS", "jsPDF"]);
+        LOREM_IPSUM, 
+        "2020-09", "current", 
+        icon,
+        "A Hello World Program Like Any Other",
+        "https://www.google.com/search?q=hello+world",
+        ["javascript", "ReactJS", "jsPDF"]);
+
+        const experienceList = new ExperienceList("Personal Projects");
+
+        for (let i = 0; i < 5; ++i)
+            experienceList.experiences.push(experience);
+
+        const information = new Information("Hacking", 100);
+        const informationList = new InformationList("Skills");
+
+        for (let i = 0; i < 5; ++i)
+            informationList.informations.push(information);
+
+        const resume = new Resume("Mr. Robot");
+        resume.experienceSuperlist.push(experienceList);
+        resume.informationSuperlist.push(informationList);
 
         const resumeCreator = new ResumeCreator();
-        const doc = resumeCreator.createResume("Personal Projects", [experience, experience, experience, experience, experience]);
+        const doc = resumeCreator.createResume(resume);
         doc.output("dataurlnewwindow");
         //doc.save("cv.pdf");
     }
