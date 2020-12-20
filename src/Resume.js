@@ -8,28 +8,28 @@ class Resume {
 }
 
 class ExperienceList {
-    constructor(title, experiences = []) {
-        this.title = title;
+    constructor(header, experiences = []) {
+        this.header = header;
         this.experiences = experiences;
     }
 }
 
 class Experience {
-    constructor(title, description, startDate, endDate, titleIcon = null, titleDescription = "", titleLink = "", keywords = []) {
-        this.title = title;
+    constructor(header, description, startDate, endDate, headerIcon = null, headerDescription = "", headerLink = "", keywords = []) {
+        this.header = header;
         this.description = description;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.titleIcon = titleIcon;
-        this.titleDescription = titleDescription;
-        this.titleLink = titleLink;
+        this.headerIcon = headerIcon;
+        this.headerDescription = headerDescription;
+        this.headerLink = headerLink;
         this.keywords = keywords;
     }
 }
 
 class InformationList {
-    constructor(title, informations = []) {
-        this.title = title;
+    constructor(header, informations = []) {
+        this.header = header;
         this.informations = informations;
     }
 }

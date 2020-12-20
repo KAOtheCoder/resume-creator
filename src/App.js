@@ -1,8 +1,7 @@
-import jsPDF from "jspdf";
 import React from 'react';
 import ResumeCreator from "./ResumeCreator";
 import { Experience, ExperienceList, Information, InformationList, Resume } from "./Resume";
-
+import ResumeForm from "./components/ResumeForm";
 import './App.css';
 
 class App extends React.Component {
@@ -30,28 +29,34 @@ class App extends React.Component {
         icon.src = "logo192.png";
         
         const experience = new Experience("Hello World", 
-        LOREM_IPSUM, 
-        "2020-09", "current", 
-        icon,
-        "A Hello World Program Like Any Other",
-        "https://www.google.com/search?q=hello+world",
-        ["javascript", "ReactJS", "jsPDF"]);
+            LOREM_IPSUM, 
+            "2020-09", "current", 
+            icon,
+            "A Hello World Program Like Any Other",
+            "https://www.google.com/search?q=hello+world",
+            ["javascript", "ReactJS", "jsPDF"]);
 
-        const experienceList = new ExperienceList("Personal Projects");
+        const experienceList = new ExperienceList("PERSONAL PROJECTS");
 
-        for (let i = 0; i < 5; ++i)
+        for (let i = 0; i < 2; ++i)
             experienceList.experiences.push(experience);
 
-        const information = new Information("Hacking", 100);
+        const information = new Information("Hacking", 75);
         const informationList = new InformationList("Skills");
 
         for (let i = 0; i < 5; ++i)
             informationList.informations.push(information);
 
         const resume = new Resume("Mr. Robot");
-        resume.experienceSuperlist.push(experienceList);
-        resume.informationSuperlist.push(informationList);
+        resume.brief = LOREM_IPSUM;
 
+        for (let i = 0; i < 10; ++i)
+            resume.informationSuperlist.push(informationList);
+
+        for (let i = 0; i < 3; ++i)
+            resume.experienceSuperlist.push(experienceList);
+
+        console.log(resume.informationSuperlist)
         const resumeCreator = new ResumeCreator();
         const doc = resumeCreator.createResume(resume);
         doc.output("dataurlnewwindow");
