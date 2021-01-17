@@ -8,16 +8,17 @@ class App extends React.Component {
     render() {
         return (
             <div className="App">
-                <button className="App-button"
-                onClick={() => this.createPdf() }
+                <ResumeForm/>
+                <button
+                onClick={() => this.createDefault() }
                 >
-                "Create pdf"
+                    Create default pdf
                 </button>
             </div>
         );
     }
 
-    createPdf() {
+    createDefault() {
         const LOREM_IPSUM = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus id eros turpis. Vivamus tempor urna vitae sapien mollis molestie. Vestibulum in "
             + "lectus non enim bibendum laoreet at at libero. Etiam malesuada erat sed sem blandit in varius orci porttitor. Sed at sapien urna. Fusce augue ipsum, molestie et "
             + "adipiscing at, varius quis enim. Morbi sed magna est, vel vestibulum urna. Sed tempor ipsum vel mi pretium at elementum urna tempor. Nulla faucibus consectetur felis, "

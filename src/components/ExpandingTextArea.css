@@ -1,0 +1,20 @@
+.ExpandingTextArea {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 4px;
+    background: transparent;
+    border-color: transparent;
+    overflow: auto;
+    line-height: 20px;
+    resize: none;
+    font-family: Arial;
+    color: white;
+    overflow: auto;
+    outline: none;
+    border-color: white;
+    border-radius: 8px;
+}
+
+.ExpandingTextArea:focus {
+    border-color: green;
+}

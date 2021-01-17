@@ -1,0 +1,18 @@
+.UnderlinedInput {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 4px;
+    background: transparent;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-color: white;
+    border-width: 1px;
+    outline: none;
+    font-family: Arial, Helvetica, sans-serif;
+    color: white
+}
+
+.UnderlinedInput:focus {
+    border-color: green;
+}
