@@ -12,16 +12,6 @@ class CollapsibleComponent extends React.Component {
         this.setState({ expanded: !this.state.expanded });
     }
 
-    content() {
-        if (this.state.expanded)
-            return this.props.content;
-            /*return (
-                <div style={{background:"red", height: 100, width: 500}}></div>
-            );*/
-
-        return [];
-    }
-
     render() {
         const expandIcon = this.state.expanded ? "expand_more" : "chevron_right";
 
@@ -40,8 +30,9 @@ class CollapsibleComponent extends React.Component {
                 </div>
                 <div
                 className="CollapsibleComponent-Content"
+                style={{display: this.state.expanded ? "" : "none"}}
                 >
-                    {this.content()}
+                    {this.props.content}
                 </div>
             </div>
         );

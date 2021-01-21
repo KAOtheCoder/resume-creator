@@ -4,8 +4,7 @@ import ResumeCreator from "../ResumeCreator";
 import "./ResumeForm.css";
 import UnderlinedInput from "./UnderlinedInput";
 import ExpandingTextArea from "./ExpandingTextArea";
-import AddButton from "./AddButton";
-import CollapsibleComponent from "./CollapsibleComponent";
+import CollapsibleList from "./CollapsibleList";
 
 class ResumeForm extends React.Component {
     constructor(props) {
@@ -26,13 +25,15 @@ class ResumeForm extends React.Component {
                 placeholder="Brief"
                 onChange={(event) => this.onBriefChange(event.target)}
                 />
-                <CollapsibleComponent
+                <CollapsibleList
                 title="Informations"
-                content={
-                    <AddButton
-                    label="Add Information List"
-                    onClick={() => this.addInformationList()}
-                    />
+                addLabel="Add Information List"
+                onAdd={() => this.addInformationList()}
+                elements={[
+                    <ExpandingTextArea
+                    placeholder="Test"
+                    onChange={()=>{}}
+                    />]
                 }
                 />
                 <div>

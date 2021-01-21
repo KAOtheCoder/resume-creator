@@ -1,9 +1,10 @@
 .CollapsibleComponent {
     display: grid;
-    justify-content: start;
+    grid-template-columns: 24px auto;
 }
 
 .CollapsibleComponent-Button {
+    padding: 0px;
     background: none;
     border: none;
     outline: none;
