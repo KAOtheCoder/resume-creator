@@ -8,8 +8,8 @@ class AddButton extends React.Component {
             className="AddButton"
             onClick={this.props.onClick}
             >
-                <div><i className="material-icons">add</i></div>
-                <div className="Label">{this.props.label}</div>
+                <div><i className="material-icons AddButton-Icon">add</i></div>
+                <div className="AddButton-Label">{this.props.label}</div>
             </button>
         );
     }
