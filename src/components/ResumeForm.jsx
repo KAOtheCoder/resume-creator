@@ -4,6 +4,7 @@ import ResumeCreator from "../ResumeCreator";
 import "./ResumeForm.css";
 import UnderlinedInput from "./UnderlinedInput";
 import ExpandingTextArea from "./ExpandingTextArea";
+import AddButton from "./AddButton";
 
 class ResumeForm extends React.Component {
     constructor(props) {
@@ -26,14 +27,13 @@ class ResumeForm extends React.Component {
                 />
                 <div>
                     <div>Informations</div>
-                    <button
+                    <AddButton
+                    label="Add Information List"
                     onClick={() => this.addInformationList()}
-                    >
-                        Add Information List
-                    </button>
+                    />
                 </div>
                 <div>
-                    <label>Experiences</label>
+                    <div>Experiences</div>
                 </div>
                 <button
                 onClick={() => this.createResume() }
@@ -41,7 +41,7 @@ class ResumeForm extends React.Component {
                     Create Resume
                 </button>
             </div>
-        );
+        )
     }
 
     createResume() {
