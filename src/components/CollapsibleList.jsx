@@ -8,6 +8,8 @@ class CollapsibleList extends React.Component {
         return (
             <CollapsibleComponent
             title={this.props.title}
+            onTitleChange={this.props.onTitleChange}
+            titleReadOnly={this.props.titleReadOnly}
             content={
                 <div className="CollapsibleList-Elements">
                     {this.props.elements.concat(

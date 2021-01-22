@@ -1,5 +1,6 @@
 import React from "react";
 import "./CollapsibleComponent.css";
+import EditibleLabel from "./EditibleLabel";
 
 class CollapsibleComponent extends React.Component {
     constructor(props) {
@@ -23,11 +24,12 @@ class CollapsibleComponent extends React.Component {
                 >
                     <i className="material-icons CollapsibleComponent-Icon">{expandIcon}</i>
                 </button>
-                <div
+                <EditibleLabel
                 className="CollapsibleComponent-Title"
-                >
-                    {this.props.title}
-                </div>
+                text={this.props.title}
+                onChange={this.props.onTitleChange}
+                readOnly={this.props.titleReadOnly}
+                />
                 <div
                 className="CollapsibleComponent-Content"
                 style={{display: this.state.expanded ? "" : "none"}}

@@ -1,6 +1,7 @@
 .CollapsibleComponent {
     display: grid;
     grid-template-columns: 24px auto;
+    gap: 4px;
 }
 
 .CollapsibleComponent-Button {
