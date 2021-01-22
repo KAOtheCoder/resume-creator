@@ -298,11 +298,11 @@ class ResumeCreator {
             }
         }
 
-        if (information.description.length > 0) {
+        if (information.value.length > 0) {
             height += SPACING;
 
             this.doc.setFont(this.doc.getFont().fontName, "normal");
-            height += this.printText(x, y + height, width, information.description, visible);
+            height += this.printText(x, y + height, width, information.value, visible);
         }
 
         return height;

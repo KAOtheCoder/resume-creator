@@ -27,7 +27,7 @@ class CollapsibleComponent extends React.Component {
                 <EditibleLabel
                 className="CollapsibleComponent-Title"
                 text={this.props.title}
-                onChange={this.props.onTitleChange}
+                onChange={(event) => this.handleTitleChange(event.target.value)}
                 readOnly={this.props.titleReadOnly}
                 />
                 <div
@@ -38,6 +38,11 @@ class CollapsibleComponent extends React.Component {
                 </div>
             </div>
         );
+    }
+
+    handleTitleChange(title) {
+        if (this.props.onTitleChange !== undefined)
+            this.props.onTitleChange(title);
     }
 }
 

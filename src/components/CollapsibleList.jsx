@@ -12,12 +12,13 @@ class CollapsibleList extends React.Component {
             titleReadOnly={this.props.titleReadOnly}
             content={
                 <div className="CollapsibleList-Elements">
-                    {this.props.elements.concat(
+                    {[...this.props.elements,
                     <AddButton
+                    key="add"
                     label={this.props.addLabel}
-                    onClick={this.onAdd}
-                    />)
-                }
+                    onClick={this.props.onAdd}
+                    />
+                    ]}
                 </div>
             }
             />

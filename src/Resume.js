@@ -35,10 +35,10 @@ class InformationList {
 }
 
 class Information {
-    constructor(key, rating = -1, description = "") {
+    constructor(key, rating = -1, value = "") {
         this.key = key;
         this.rating = rating;
-        this.description = description;
+        this.value = value;
     }
 }
 

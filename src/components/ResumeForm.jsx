@@ -5,13 +5,13 @@ import "./ResumeForm.css";
 import UnderlinedInput from "./UnderlinedInput";
 import ExpandingTextArea from "./ExpandingTextArea";
 import CollapsibleList from "./CollapsibleList";
+import InformationListComponent from "./InformationListComponent";
 
 class ResumeForm extends React.Component {
     constructor(props) {
         super(props);
 
         this.resume = new Resume("");
-        this.nameInput = React.createRef
     }
 
     render() {
@@ -19,22 +19,20 @@ class ResumeForm extends React.Component {
             <div className="ResumeForm">
                 <UnderlinedInput 
                 placeholder="Name"
-                onChange={(event) => this.onNameChange(event.target)}
+                onChange={(event) => this.onNameChange(event.target.value)}
                 />
                 <ExpandingTextArea
                 placeholder="Brief"
-                onChange={(event) => this.onBriefChange(event.target)}
+                onChange={(event) => this.onBriefChange(event.target.value)}
                 />
                 <CollapsibleList
                 title="Informations"
+                titleReadOnly={true}
                 addLabel="Add Information List"
                 onAdd={() => this.addInformationList()}
                 elements={[
-                    <ExpandingTextArea
-                    placeholder="Test"
-                    onChange={()=>{}}
-                    />]
-                }
+                    <InformationListComponent key={0}/>
+                    ]}
                 />
                 <div>
                     <div>Experiences</div>
@@ -54,12 +52,12 @@ class ResumeForm extends React.Component {
         doc.output("dataurlnewwindow");
     }
 
-    onNameChange(input) {
-        this.resume.name = input.value;
+    onNameChange(name) {
+        this.resume.name = name;
     }
 
-    onBriefChange(textarea) {
-        this.resume.brief = textarea.value;
+    onBriefChange(brief) {
+        this.resume.brief = brief;
     }
 
     addInformationList() {

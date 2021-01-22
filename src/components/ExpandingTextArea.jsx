@@ -22,7 +22,9 @@ class ExpandingTextArea extends React.Component {
 
     handleOnChange(event) {
         this.updateSize();
-        this.props.onChange(event);
+
+        if (this.props.onChange !== undefined)
+            this.props.onChange(event);
     }
 
     updateSize() {
