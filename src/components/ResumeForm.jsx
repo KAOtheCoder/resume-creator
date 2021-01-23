@@ -1,11 +1,10 @@
 import React from "react";
-import { InformationList, Resume } from "../Resume";
+import { Resume } from "../Resume";
 import ResumeCreator from "../ResumeCreator";
 import "./ResumeForm.css";
 import UnderlinedInput from "./UnderlinedInput";
 import ExpandingTextArea from "./ExpandingTextArea";
-import CollapsibleList from "./CollapsibleList";
-import InformationListComponent from "./InformationListComponent";
+import InformationSuperlistForm from "./InformationSuperlistForm";
 
 class ResumeForm extends React.Component {
     constructor(props) {
@@ -19,20 +18,14 @@ class ResumeForm extends React.Component {
             <div className="ResumeForm">
                 <UnderlinedInput 
                 placeholder="Name"
-                onChange={(event) => this.onNameChange(event.target.value)}
+                onChange={(event) => this.handleNameChange(event.target.value)}
                 />
                 <ExpandingTextArea
                 placeholder="Brief"
-                onChange={(event) => this.onBriefChange(event.target.value)}
+                onChange={(event) => this.handleBriefChange(event.target.value)}
                 />
-                <CollapsibleList
-                title="Informations"
-                titleReadOnly={true}
-                addLabel="Add Information List"
-                onAdd={() => this.addInformationList()}
-                elements={[
-                    <InformationListComponent key={0}/>
-                    ]}
+                <InformationSuperlistForm
+                onInformationSuperlistChange={(informationSuperlist) => this.handleInformationSuperlistChange(informationSuperlist)}
                 />
                 <div>
                     <div>Experiences</div>
@@ -43,7 +36,7 @@ class ResumeForm extends React.Component {
                     Create Resume
                 </button>
             </div>
-        )
+        );
     }
 
     createResume() {
@@ -52,16 +45,16 @@ class ResumeForm extends React.Component {
         doc.output("dataurlnewwindow");
     }
 
-    onNameChange(name) {
+    handleNameChange(name) {
         this.resume.name = name;
     }
 
-    onBriefChange(brief) {
+    handleBriefChange(brief) {
         this.resume.brief = brief;
     }
 
-    addInformationList() {
-        this.resume.informationSuperlist.push(new InformationList(""));
+    handleInformationSuperlistChange(informationsSuperlist) {
+        this.resume.informationSuperlist = informationsSuperlist;
     }
 }
 

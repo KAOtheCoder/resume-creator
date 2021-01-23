@@ -7,7 +7,14 @@ class InformationListForm extends React.Component {
     constructor(props) {
         super(props);
 
-        this.informationList = new InformationList("Information List");
+        if (this.props.informationList === undefined) {
+            this.informationList = new InformationList("Information List");
+            this.handleInformationListChange();
+        }
+        else {
+            this.informationList = this.props.informationList;
+        }
+
         this.state = {informations: this.informationList.informations.length};
     }
 
@@ -16,7 +23,7 @@ class InformationListForm extends React.Component {
             <CollapsibleList
             title={this.informationList.header}
             titleReadOnly={false}
-            onTitleChange={(event) => this.handleHeaderChange(event.target.value)}
+            onTitleChange={(title) => this.handleHeaderChange(title)}
             addLabel="Add Information"
             onAdd={() => this.addInformation()}
             elements={this.getElements()}
@@ -32,7 +39,7 @@ class InformationListForm extends React.Component {
                 <InformationForm
                 key={i}
                 information={this.informationList.informations[i]}
-                onInformationChange={() => this.handleInformationListChanged()}
+                onInformationChange={() => this.handleInformationListChange()}
                 />
             );
 
@@ -43,16 +50,16 @@ class InformationListForm extends React.Component {
         const information = new Information("Key");
         this.informationList.informations.push(information);
         this.setState({informations: this.informationList.informations.length});
-        this.handleInformationListChanged();
+        this.handleInformationListChange();
     }
 
     handleHeaderChange(header) {
         this.informationList.header = header;
-        this.handleInformationListChanged();
+        this.handleInformationListChange();
     }
 
-    handleInformationListChanged() {
-        //this.props.onInformationListChanged(this.InformationList);
+    handleInformationListChange() {
+        this.props.onInformationListChange(this.InformationList);
     }
 }
 

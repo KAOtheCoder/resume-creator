@@ -1,19 +1,19 @@
 import React from "react";
 import CollapsibleComponent from "./CollapsibleComponent";
 import UnderlinedInput from "./UnderlinedInput";
-import "./InformationComponent.css";
+import "./InformationForm.css";
 import { Information } from "../Resume";
 
 class InformationForm extends React.Component {
     constructor(props) {
         super(props);
 
-        if (this.props.information !== undefined) {
-            this.information = this.props.information;
-        }
-        else {
+        if (this.props.information === undefined) {
             this.information = new Information("Key");
             this.handleInformationChange();
+        }
+        else {
+            this.information = this.props.information;
         }
     }
 
