@@ -2,6 +2,7 @@ import React from "react";
 import { InformationList } from "../Resume";
 import CollapsibleList from "./CollapsibleList";
 import InformationListForm from "./InformationListForm";
+import KeyGenerator from "../KeyGenerator.js";
 
 class InformationSuperlistForm extends React.Component {
     constructor(props) {
@@ -14,7 +15,8 @@ class InformationSuperlistForm extends React.Component {
             this.informationSuperlist = this.props.informationSuperlist;
         }
 
-        this.state = {informationsSuperlist: this.informationSuperlist.length};
+        this.keyGenerator = new KeyGenerator();
+        this.state = {informationListKeys: this.keyGenerator.generateKeys(this.informationSuperlist.length)};
     }
 
     render() {
@@ -22,6 +24,8 @@ class InformationSuperlistForm extends React.Component {
             <CollapsibleList
             title="Informations"
             titleReadOnly={true}
+            deletable={false}
+            addable={true}
             addLabel="Add Information List"
             onAdd={() => this.addInformationList()}
             elements={this.getElements()}
@@ -32,12 +36,13 @@ class InformationSuperlistForm extends React.Component {
     getElements() {
         const elements = [];
 
-        for (let i = 0; i < this.informationSuperlist.length; ++i)
+        for (let i = 0; i < this.state.informationListKeys.length; ++i)
             elements.push(
                 <InformationListForm
-                key={i}
+                key={this.state.informationListKeys[i]}
                 informationList={this.informationSuperlist[i]}
                 onInformationListChange={() => this.handleInformationSuperlistChange()}
+                onDelete={() => this.deleteInformationList(i)}
                 />
             );
 
@@ -45,10 +50,25 @@ class InformationSuperlistForm extends React.Component {
     }
 
     addInformationList() {
-        const informationList = new InformationList("Information List");
-        this.informationSuperlist.push(informationList);
-        this.setState({informationSuperlist: this.informationSuperlist.length});
-        this.handleInformationSuperlistChange();
+        this.setState(
+            (state) => {
+                this.informationSuperlist.push(new InformationList("Information List"));
+                this.handleInformationSuperlistChange();
+                return {informationListKeys: [...state.informationListKeys, this.keyGenerator.generateKey()]};
+            }
+        );
+    }
+
+    deleteInformationList(index) {
+        this.setState(
+            (state) => {
+                this.informationSuperlist.splice(index, 1);
+                this.handleInformationSuperlistChange();
+                const keys = [...state.informationListKeys];
+                keys.splice(index, 1);
+                return {informationListKeys: keys};
+            }
+        );
     }
 
     handleInformationSuperlistChange() {

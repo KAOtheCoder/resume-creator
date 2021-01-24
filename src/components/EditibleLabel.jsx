@@ -5,7 +5,7 @@ class EditibleLabel extends React.Component {
     render() {
         return (
             <input
-            className="EditibleLabel"
+            className={this.props.className + " EditibleLabel"}
             type="text"
             defaultValue={this.props.text}
             onChange={this.props.onChange}

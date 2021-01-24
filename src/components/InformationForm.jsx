@@ -1,7 +1,6 @@
 import React from "react";
-import CollapsibleComponent from "./CollapsibleComponent";
+import CollapsibleList from "./CollapsibleList";
 import UnderlinedInput from "./UnderlinedInput";
-import "./InformationForm.css";
 import { Information } from "../Resume";
 
 class InformationForm extends React.Component {
@@ -19,20 +18,19 @@ class InformationForm extends React.Component {
 
     render() {
         return (
-            <CollapsibleComponent
+            <CollapsibleList
             title={this.information.key}
             titleReadOnly={false}
             onTitleChange={(title) => this.handleKeyChange(title)}
-            content={
-                <div
-                className="InformationForm-Content"
-                >
-                    <UnderlinedInput
-                    defaultValue={this.information.value}
-                    placeholder="Value"
-                    onChange={(event) => this.handleValueChange(event.target.value)}
-                    />
-                </div>
+            deletable={true}
+            onDelete={this.props.onDelete}
+            addable={false}
+            elements={
+                <UnderlinedInput
+                defaultValue={this.information.value}
+                placeholder="Value"
+                onChange={(event) => this.handleValueChange(event.target.value)}
+                />
             }
             />
         );

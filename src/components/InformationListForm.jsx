@@ -2,6 +2,7 @@ import React from "react";
 import { Information, InformationList } from "../Resume";
 import CollapsibleList from "./CollapsibleList";
 import InformationForm from "./InformationForm";
+import KeyGenerator from "../KeyGenerator.js";
 
 class InformationListForm extends React.Component {
     constructor(props) {
@@ -15,7 +16,8 @@ class InformationListForm extends React.Component {
             this.informationList = this.props.informationList;
         }
 
-        this.state = {informations: this.informationList.informations.length};
+        this.keyGenerator = new KeyGenerator();
+        this.state = {informationKeys: this.keyGenerator.generateKeys(this.informationList.informations.length)};
     }
 
     render() {
@@ -24,6 +26,9 @@ class InformationListForm extends React.Component {
             title={this.informationList.header}
             titleReadOnly={false}
             onTitleChange={(title) => this.handleHeaderChange(title)}
+            deletable={true}
+            onDelete={this.props.onDelete}
+            addable={true}
             addLabel="Add Information"
             onAdd={() => this.addInformation()}
             elements={this.getElements()}
@@ -34,12 +39,13 @@ class InformationListForm extends React.Component {
     getElements() {
         const elements = [];
 
-        for (let i = 0; i < this.informationList.informations.length; ++i)
+        for (let i = 0; i < this.state.informationKeys.length; ++i)
             elements.push(
                 <InformationForm
-                key={i}
+                key={this.state.informationKeys[i]}
                 information={this.informationList.informations[i]}
                 onInformationChange={() => this.handleInformationListChange()}
+                onDelete={() => this.deleteInformation(i)}
                 />
             );
 
@@ -47,10 +53,25 @@ class InformationListForm extends React.Component {
     }
 
     addInformation() {
-        const information = new Information("Key");
-        this.informationList.informations.push(information);
-        this.setState({informations: this.informationList.informations.length});
-        this.handleInformationListChange();
+        this.setState(
+            (state) => {
+                this.informationList.informations.push(new Information("Key"));
+                this.handleInformationListChange();
+                return {informationKeys: [...state.informationKeys, this.keyGenerator.generateKey()]};
+            }
+        );
+    }
+
+    deleteInformation(index) {
+        this.setState(
+            (state) => {
+                this.informationList.informations.splice(index, 1);
+                this.handleInformationListChange();
+                const keys = [...state.informationKeys];
+                keys.splice(index, 1);
+                return {informationKeys: keys};
+            }
+        );
     }
 
     handleHeaderChange(header) {

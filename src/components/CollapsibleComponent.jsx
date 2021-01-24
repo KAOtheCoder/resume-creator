@@ -24,12 +24,17 @@ class CollapsibleComponent extends React.Component {
                 >
                     <i className="material-icons CollapsibleComponent-Icon">{expandIcon}</i>
                 </button>
-                <EditibleLabel
+                <div
                 className="CollapsibleComponent-Title"
-                text={this.props.title}
-                onChange={(event) => this.handleTitleChange(event.target.value)}
-                readOnly={this.props.titleReadOnly}
-                />
+                >
+                    <EditibleLabel
+                    className="CollapsibleComponent-TitleLabel"
+                    text={this.props.title}
+                    onChange={(event) => this.handleTitleChange(event.target.value)}
+                    readOnly={this.props.titleReadOnly}
+                    />
+                    {this.props.titleComponents}
+                </div>
                 <div
                 className="CollapsibleComponent-Content"
                 style={{display: this.state.expanded ? "" : "none"}}

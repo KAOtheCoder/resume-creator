@@ -25,6 +25,7 @@ class ResumeForm extends React.Component {
                 onChange={(event) => this.handleBriefChange(event.target.value)}
                 />
                 <InformationSuperlistForm
+                informationSuperlist={this.resume.informationSuperlist}
                 onInformationSuperlistChange={(informationSuperlist) => this.handleInformationSuperlistChange(informationSuperlist)}
                 />
                 <div>
