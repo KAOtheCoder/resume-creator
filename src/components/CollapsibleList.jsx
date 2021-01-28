@@ -18,6 +18,39 @@ class CollapsibleList extends React.Component {
 
     getTitleButtons() {
         const titleButtons = [];
+        const moveButtons = [];
+
+        if (this.props.movableUp)
+            moveButtons.push(
+                <button
+                key="moveUp"
+                className="CollapsibleComponent-Button CollapsibleList-MoveButton"
+                onClick={this.props.onMoveUp}
+                >
+                    <i className="material-icons CollapsibleComponent-Icon">arrow_drop_up</i>
+                </button>
+            );
+
+        if (this.props.movableDown)
+            moveButtons.push(
+                <button
+                key="moveDown"
+                className="CollapsibleComponent-Button CollapsibleList-MoveButton"
+                onClick={this.props.onMoveDown}
+                >
+                    <i className="material-icons CollapsibleComponent-Icon">arrow_drop_down</i>
+                </button>
+            );
+            
+        if (moveButtons.length > 0)
+            titleButtons.push(
+                <div 
+                key="move"
+                className="CollapsibleList-Move"
+                >
+                    {moveButtons}
+                </div>
+            );
 
         if (this.props.deletable)
             titleButtons.push(

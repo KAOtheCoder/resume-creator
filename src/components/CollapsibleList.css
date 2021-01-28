@@ -3,3 +3,17 @@
     flex-direction: column;
     gap: 8px;
 }
+
+.CollapsibleList-Move {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.CollapsibleList-MoveButton {
+    overflow: hidden;
+    height: 13.5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

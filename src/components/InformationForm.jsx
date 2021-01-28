@@ -25,6 +25,10 @@ class InformationForm extends React.Component {
             deletable={true}
             onDelete={this.props.onDelete}
             addable={false}
+            movableUp={this.props.movableUp}
+            onMoveUp={this.props.onMoveUp}
+            movableDown={this.props.movableDown}
+            onMoveDown={this.props.onMoveDown}
             elements={
                 <UnderlinedInput
                 defaultValue={this.information.value}
