@@ -31,6 +31,10 @@ class InformationListForm extends React.Component {
             addable={true}
             addLabel="Add Information"
             onAdd={() => this.addInformation()}
+            movableUp={this.props.movableUp}
+            onMoveUp={this.props.onMoveUp}
+            movableDown={this.props.movableDown}
+            onMoveDown={this.props.onMoveDown}
             elements={this.getElements()}
             />
         );
@@ -59,7 +63,7 @@ class InformationListForm extends React.Component {
     addInformation() {
         this.setState(
             (state) => {
-                this.informationList.informations.push(new Information("Key"));
+                this.informationList.informations.push(new Information("Key " + (this.informationList.informations.length + 1)));
                 this.handleInformationListChange();
                 return {informationKeys: [...state.informationKeys, this.keyGenerator.generateKey()]};
             }

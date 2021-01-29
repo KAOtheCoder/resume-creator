@@ -1,4 +1,7 @@
 .CollapsibleComponent {
+    background-color: rgba(127, 127, 127, 0.05);
+    border-radius: 8px;
+    padding: 8px;
     display: grid;
     grid-template-columns: 24px auto;
     gap: 4px;

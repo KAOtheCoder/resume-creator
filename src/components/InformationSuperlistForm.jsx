@@ -28,6 +28,8 @@ class InformationSuperlistForm extends React.Component {
             addable={true}
             addLabel="Add Information List"
             onAdd={() => this.addInformationList()}
+            movableUp={false}
+            movableDown={false}
             elements={this.getElements()}
             />
         );
@@ -43,6 +45,10 @@ class InformationSuperlistForm extends React.Component {
                 informationList={this.informationSuperlist[i]}
                 onInformationListChange={() => this.handleInformationSuperlistChange()}
                 onDelete={() => this.deleteInformationList(i)}
+                movableUp={i > 0}
+                onMoveUp={() => this.moveInformationListUp(i)}
+                movableDown={i < this.state.informationListKeys.length - 1}
+                onMoveDown={() => this.moveInformationListDown(i)}
                 />
             );
 
@@ -52,7 +58,7 @@ class InformationSuperlistForm extends React.Component {
     addInformationList() {
         this.setState(
             (state) => {
-                this.informationSuperlist.push(new InformationList("Information List"));
+                this.informationSuperlist.push(new InformationList("Information List " + (this.informationSuperlist.length + 1)));
                 this.handleInformationSuperlistChange();
                 return {informationListKeys: [...state.informationListKeys, this.keyGenerator.generateKey()]};
             }
@@ -66,6 +72,26 @@ class InformationSuperlistForm extends React.Component {
                 this.handleInformationSuperlistChange();
                 const keys = [...state.informationListKeys];
                 keys.splice(index, 1);
+                return {informationListKeys: keys};
+            }
+        );
+    }
+
+    moveInformationListUp(index) {
+        this.swapInformationLists(index - 1, index);
+    }
+
+    moveInformationListDown(index) {
+        this.swapInformationLists(index, index + 1);
+    }
+
+    swapInformationLists(indexFirst, indexSecond) {
+        this.setState(
+            (state) => {
+                [this.informationSuperlist[indexFirst], this.informationSuperlist[indexSecond]] = [this.informationSuperlist[indexSecond], this.informationSuperlist[indexFirst]];
+                this.handleInformationSuperlistChange();
+                const keys = [...state.informationListKeys];
+                [keys[indexFirst], keys[indexSecond]] = [keys[indexSecond], keys[indexFirst]];
                 return {informationListKeys: keys};
             }
         );
