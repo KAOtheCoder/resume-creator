@@ -1,0 +1,38 @@
+.CheckBox {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px;
+    background: none;
+    border: none;
+    border-color: white;
+    outline: none;
+    overflow: hidden;
+}
+
+.CheckBox:hover {
+    border-color: green;
+}
+
+.CheckBox-Icon {
+    vertical-align: middle;
+    border-color: inherit;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 4px;
+    font-size: 18px;
+}
+
+.CheckBox-Icon-Unchecked {
+    color: transparent;
+}
+
+.CheckBox-Icon-Checked {
+    color: white;
+    background: green;
+}
+
+.CheckBox-Label {
+    padding: 4px;
+    color: white;
+}
