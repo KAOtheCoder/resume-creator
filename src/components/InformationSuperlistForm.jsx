@@ -58,9 +58,10 @@ class InformationSuperlistForm extends React.Component {
     addInformationList() {
         this.setState(
             (state) => {
-                this.informationSuperlist.push(new InformationList("Information List " + (this.informationSuperlist.length + 1)));
+                const key = this.keyGenerator.generateKey();
+                this.informationSuperlist.push(new InformationList("Information List " + key));
                 this.handleInformationSuperlistChange();
-                return {informationListKeys: [...state.informationListKeys, this.keyGenerator.generateKey()]};
+                return {informationListKeys: [...state.informationListKeys, key]};
             }
         );
     }

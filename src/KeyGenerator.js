@@ -4,7 +4,7 @@ class KeyGenerator {
     }
 
     generateKey() {
-        return this.counter++
+        return ++this.counter;
     }
 
     generateKeys(length) {

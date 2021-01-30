@@ -5,6 +5,7 @@ import "./ResumeForm.css";
 import UnderlinedInput from "./UnderlinedInput";
 import ExpandingTextArea from "./ExpandingTextArea";
 import InformationSuperlistForm from "./InformationSuperlistForm";
+import ExperienceSuperlistForm from "./ExperienceSuperlistForm";
 
 class ResumeForm extends React.Component {
     constructor(props) {
@@ -28,9 +29,10 @@ class ResumeForm extends React.Component {
                 informationSuperlist={this.resume.informationSuperlist}
                 onInformationSuperlistChange={(informationSuperlist) => this.handleInformationSuperlistChange(informationSuperlist)}
                 />
-                <div>
-                    <div>Experiences</div>
-                </div>
+                <ExperienceSuperlistForm
+                experienceSuperlist={this.resume.experienceSuperlist}
+                onExperienceSuperlistChange={(experienceSuperlist) => this.handleExperienceSuperlistChange(experienceSuperlist)}
+                />
                 <button
                 onClick={() => this.createResume() }
                 >
@@ -54,8 +56,12 @@ class ResumeForm extends React.Component {
         this.resume.brief = brief;
     }
 
-    handleInformationSuperlistChange(informationsSuperlist) {
-        this.resume.informationSuperlist = informationsSuperlist;
+    handleInformationSuperlistChange(informationSuperlist) {
+        this.resume.informationSuperlist = informationSuperlist;
+    }
+
+    handleExperienceSuperlistChange(experienceSuperlist) {
+        this.resume.experienceSuperlist = experienceSuperlist;
     }
 }
 

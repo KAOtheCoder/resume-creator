@@ -63,9 +63,10 @@ class InformationListForm extends React.Component {
     addInformation() {
         this.setState(
             (state) => {
-                this.informationList.informations.push(new Information("Key " + (this.informationList.informations.length + 1)));
+                const key = this.keyGenerator.generateKey();
+                this.informationList.informations.push(new Information("Key " + key));
                 this.handleInformationListChange();
-                return {informationKeys: [...state.informationKeys, this.keyGenerator.generateKey()]};
+                return {informationKeys: [...state.informationKeys, key]};
             }
         );
     }
