@@ -3,3 +3,7 @@
     flex-direction: row;
     gap: 8px;
 }
+
+.InformationForm-Rating-Slider {
+    flex: auto;
+}

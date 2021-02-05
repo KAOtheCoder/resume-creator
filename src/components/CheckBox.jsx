@@ -5,6 +5,7 @@ class CheckBox extends React.Component {
     constructor(props) {
         super(props);
 
+        this.onToggle = this.props.onToggle === undefined ? () => {} : this.props.onToggle;
         this.state = {checked: this.props.checked ? true : false}
     }
 
@@ -23,10 +24,10 @@ class CheckBox extends React.Component {
     }
 
     handleOnClick(event) {
-        this.setState((state) => { return {checked: !state.checked}});
-
-        if (this.props.onClick !== undefined)
-            this.props.onClick(event);
+        this.setState(
+            (state) => { return {checked: !state.checked}},
+            () => { this.onToggle(this.state.checked); }
+        );
     }
 }
 

@@ -4,6 +4,7 @@ import UnderlinedInput from "./UnderlinedInput";
 import { Information } from "../Resume";
 import CheckBox from "./CheckBox";
 import "./InformationForm.css";
+import Slider from "./Slider";
 
 class InformationForm extends React.Component {
     constructor(props) {
@@ -26,16 +27,18 @@ class InformationForm extends React.Component {
     getRatingRow() {
         const components = [
             <CheckBox
+            key="checkBox"
             checked={this.information.rating >= 0}
             label="Rating"
-            onClick={() => this.toggleRatingEnabled()}
+            onToggle={(checked) => this.setRatingEnabled(checked)}
             />
         ];
 
         if (this.state.ratingEnabled) {
             components.push(
-                <input
-                type="range"
+                <Slider
+                key="slider"
+                className="InformationForm-Rating-Slider"
                 min={0}
                 max={100}
                 value={this.state.rating}
@@ -45,6 +48,7 @@ class InformationForm extends React.Component {
 
             components.push(
                 <input
+                key="spinBox"
                 type="number"
                 min={0}
                 max={100}
@@ -100,14 +104,14 @@ class InformationForm extends React.Component {
         this.handleInformationChange();
     }
 
-    toggleRatingEnabled() {
-        this.information.rating = this.information.rating >= 0 ? -1 : this.state.rating;
+    setRatingEnabled(enabled) {
+        this.information.rating = enabled ? this.state.rating : -1;
         this.handleInformationChange();
-        this.setState((state) => {return {ratingEnabled: !state.ratingEnabled}});
+        this.setState((state) => {return {ratingEnabled: enabled}});
     }
 
     handleRatingChange(rating) {
-        if (this.information.rating >= 0) {
+        if (this.information.rating !== rating && this.information.rating >= 0) {
             this.information.rating = rating;
             this.handleInformationChange();
         }
