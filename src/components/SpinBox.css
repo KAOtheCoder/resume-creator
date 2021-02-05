@@ -1,0 +1,17 @@
+.SpinBox {
+    outline: none;
+    border-radius: 4px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: white;
+    background: none;
+    color: white;
+}
+
+.SpinBox:focus {
+    border-color: green;
+}
+
+.SpinBox[type=number]::-webkit-inner-spin-button {
+    opacity: 1;
+}

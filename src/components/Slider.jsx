@@ -2,16 +2,9 @@ import React from "react";
 import "./Slider.css"
 
 class Slider extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {value: this.props.value}
-        this.onChange = this.props.onChange === undefined ? () => {} : this.props.onChange;
-    }
-
     render() {
-        const fillWidth = (this.state.value - this.props.min) / (this.props.max - this.props.min) * 100;
-        
+        const fillWidth = (this.props.value - this.props.min) / (this.props.max - this.props.min) * 100;
+
         return (
             <div className={"Slider " + this.props.className}>
                 <input
@@ -20,8 +13,8 @@ class Slider extends React.Component {
                 min={this.props.min}
                 max={this.props.max}
                 defaultValue={this.props.defaultValue}
-                value={this.state.value}
-                onChange={(event) => this.handleOnChange(event)}
+                value={this.props.value}
+                onChange={this.props.onChange}
                 />
                 <div className="Slider-Background">
                     <div 
@@ -33,11 +26,6 @@ class Slider extends React.Component {
                 </div>
             </div>
         );
-    }
-
-    handleOnChange(event) {
-        this.setState({value: event.target.value});
-        this.onChange(event);
     }
 }
 

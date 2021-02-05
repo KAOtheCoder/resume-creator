@@ -5,6 +5,7 @@ import { Information } from "../Resume";
 import CheckBox from "./CheckBox";
 import "./InformationForm.css";
 import Slider from "./Slider";
+import SpinBox from "./SpinBox";
 
 class InformationForm extends React.Component {
     constructor(props) {
@@ -47,9 +48,8 @@ class InformationForm extends React.Component {
             );
 
             components.push(
-                <input
+                <SpinBox
                 key="spinBox"
-                type="number"
                 min={0}
                 max={100}
                 value={this.state.rating}
