@@ -5,16 +5,31 @@ import InformationForm from "./InformationForm";
 import KeyGenerator from "../KeyGenerator.js";
 
 class InformationListForm extends React.Component {
+    static defaultProps = {
+        onInformationListChange: (informationList) => {} 
+    }
+
     constructor(props) {
         super(props);
 
         if (this.props.informationList === undefined) {
             this.informationList = new InformationList("Information List");
-            this.handleInformationListChange();
+            this.props.onInformationListChange(this.informationList);
         }
         else {
             this.informationList = this.props.informationList;
         }
+
+        this.informationListProxy = new Proxy(this.informationList, {
+            set: (informationList, prop, value) => {
+                if (informationList[prop] !== value) {
+                    informationList[prop] = value;
+                    this.props.onInformationListChange(informationList);
+                }
+                
+                return true;
+            }
+        });
 
         this.keyGenerator = new KeyGenerator();
         this.state = {informationKeys: this.keyGenerator.generateKeys(this.informationList.informations.length)};
@@ -24,11 +39,11 @@ class InformationListForm extends React.Component {
         return (
             <CollapsibleList
             title={this.informationList.header}
-            titleReadOnly={false}
-            onTitleChange={(title) => this.handleHeaderChange(title)}
-            deletable={true}
+            titleEditible
+            onTitleChange={(title) => this.informationListProxy.header = title}
+            deletable
             onDelete={this.props.onDelete}
-            addable={true}
+            addable
             addLabel="Add Information"
             onAdd={() => this.addInformation()}
             movableUp={this.props.movableUp}
@@ -48,7 +63,7 @@ class InformationListForm extends React.Component {
                 <InformationForm
                 key={this.state.informationKeys[i]}
                 information={this.informationList.informations[i]}
-                onInformationChange={() => this.handleInformationListChange()}
+                onInformationChange={() => this.props.onInformationListChange(this.informationList)}
                 onDelete={() => this.deleteInformation(i)}
                 movableUp={i > 0}
                 onMoveUp={() => this.moveInformationUp(i)}
@@ -65,7 +80,7 @@ class InformationListForm extends React.Component {
             (state) => {
                 const key = this.keyGenerator.generateKey();
                 this.informationList.informations.push(new Information("Key " + key));
-                this.handleInformationListChange();
+                this.props.onInformationListChange(this.informationList);
                 return {informationKeys: [...state.informationKeys, key]};
             }
         );
@@ -75,7 +90,7 @@ class InformationListForm extends React.Component {
         this.setState(
             (state) => {
                 this.informationList.informations.splice(index, 1);
-                this.handleInformationListChange();
+                this.props.onInformationListChange(this.informationList);
                 const keys = [...state.informationKeys];
                 keys.splice(index, 1);
                 return {informationKeys: keys};
@@ -94,23 +109,14 @@ class InformationListForm extends React.Component {
     swapInformations(indexFirst, indexSecond) {
         this.setState(
             (state) => {
-                let informations = this.informationList.informations;
+                const informations = this.informationList.informations;
                 [informations[indexFirst], informations[indexSecond]] = [informations[indexSecond], informations[indexFirst]];
-                this.handleInformationListChange();
+                this.props.onInformationListChange(this.informationList);
                 const keys = [...state.informationKeys];
                 [keys[indexFirst], keys[indexSecond]] = [keys[indexSecond], keys[indexFirst]];
                 return {informationKeys: keys};
             }
         );
-    }
-
-    handleHeaderChange(header) {
-        this.informationList.header = header;
-        this.handleInformationListChange();
-    }
-
-    handleInformationListChange() {
-        this.props.onInformationListChange(this.InformationList);
     }
 }
 

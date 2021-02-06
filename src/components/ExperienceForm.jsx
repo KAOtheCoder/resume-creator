@@ -5,27 +5,41 @@ import { Experience } from "../Resume";
 import ExpandingTextArea from "./ExpandingTextArea";
 
 class ExperienceForm extends React.Component {
+    static defaultProps = {
+        onExperienceChange: (experience) => {} 
+    }
+
     constructor(props) {
         super(props);
 
         if (this.props.experience === undefined) {
             this.experience = new Experience("Experience", "");
-            this.handleExperienceChange();
+            this.props.onExperienceChange(this.experience);
         }
         else {
             this.experience = this.props.experience;
         }
+
+        this.experienceProxy = new Proxy(this.experience, {
+            set: (experience, prop, value) => {
+                if (experience[prop] !== value) {
+                    experience[prop] = value;
+                    this.props.onExperienceChange(experience);
+                }
+
+                return true;
+            }
+        });
     }
 
     render() {
         return (
             <CollapsibleList
             title={this.experience.header}
-            titleReadOnly={false}
-            onTitleChange={(title) => this.handleHeaderChange(title)}
-            deletable={true}
+            titleEditible
+            onTitleChange={(title) => this.experienceProxy.header = title}
+            deletable
             onDelete={this.props.onDelete}
-            addable={false}
             movableUp={this.props.movableUp}
             onMoveUp={this.props.onMoveUp}
             movableDown={this.props.movableDown}
@@ -35,36 +49,17 @@ class ExperienceForm extends React.Component {
                 key="headerDescription"
                 defaultValue={this.experience.headerDescription}
                 placeholder="Header Description"
-                onChange={(event) => this.handleHeaderDescriptionChange(event.target.value)}
+                onChange={(event) => this.experienceProxy.headerDescription = event.target.value}
                 />,
                 <ExpandingTextArea
                 key="description"
                 defaultValue={this.experience.description}
                 placeholder="Description"
-                onChange={(event) => this.handleDescriptionChange(event.target.value)}
+                onChange={(event) => this.experienceProxy.description = event.target.value}
                 />
             ]}
             />
         );
-    }
-
-    handleHeaderChange(header) {
-        this.experience.header = header;
-        this.handleExperienceChange();
-    }
-
-    handleHeaderDescriptionChange(headerDescription) {
-        this.experience.headerDescription = headerDescription;
-        this.handleExperienceChange();
-    }
-
-    handleDescriptionChange(description) {
-        this.experience.description = description;
-        this.handleExperienceChange();
-    }
-
-    handleExperienceChange() {
-        this.props.onExperienceChange(this.experience);
     }
 }
 

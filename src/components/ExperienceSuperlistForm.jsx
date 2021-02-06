@@ -5,15 +5,31 @@ import CollapsibleList from "./CollapsibleList";
 import { ExperienceList } from "../Resume";
 
 class ExperienceSuperlist extends React.Component {
+    static defaultProps = {
+        onExperienceSuperlistChange: (experienceSuperlist) => {}
+    }
+
     constructor(props) {
         super(props);
 
         if (this.props.experienceSuperlist === undefined) {
             this.experienceSuperlist = [];
+            this.props.onExperienceSuperlistChange(this.experienceSuperlist);
         }
         else {
             this.experienceSuperlist = this.props.experienceSuperlist;
         }
+
+        this.experienceSuperlistProxy = new Proxy(this.experienceSuperlist, {
+            set: (experienceSuperlist, prop, value) => {
+                if (experienceSuperlist[prop] !== value) {
+                    experienceSuperlist[prop] = value;
+                    this.props.onExperienceSuperlistChange(experienceSuperlist);
+                }
+
+                return true;
+            }
+        });
 
         this.keyGenerator = new KeyGenerator();
         this.state = {experienceListKeys: this.keyGenerator.generateKeys(this.experienceSuperlist.length)};
@@ -23,9 +39,9 @@ class ExperienceSuperlist extends React.Component {
         return (
             <CollapsibleList
             title="Experiences"
-            titleReadOnly={true}
+            titleEditible={false}
             deletable={false}
-            addable={true}
+            addable
             addLabel="Add Experience List"
             onAdd={() => this.addExperienceList()}
             movableUp={false}
@@ -43,7 +59,7 @@ class ExperienceSuperlist extends React.Component {
                 <ExperienceListForm
                 key={this.state.experienceListKeys[i]}
                 experienceList={this.experienceSuperlist[i]}
-                onExperienceListChange={() => this.handleExperienceSuperlistChange()}
+                onExperienceListChange={() => this.props.onExperienceSuperlistChange(this.experienceSuperlist)}
                 onDelete={() => this.deleteExperienceList(i)}
                 movableUp={i > 0}
                 onMoveUp={() => this.moveExperienceListUp(i)}
@@ -59,8 +75,7 @@ class ExperienceSuperlist extends React.Component {
         this.setState(
             (state) => {
                 const key = this.keyGenerator.generateKey();
-                this.experienceSuperlist.push(new ExperienceList("Experience List " + key));
-                this.handleExperienceSuperlistChange();
+                this.experienceSuperlistProxy.push(new ExperienceList("Experience List " + key));
                 return {experienceListKeys: [...state.experienceListKeys, key]};
             }
         );
@@ -69,8 +84,7 @@ class ExperienceSuperlist extends React.Component {
     deleteExperienceList(index) {
         this.setState(
             (state) => {
-                this.experienceSuperlist.splice(index, 1);
-                this.handleExperienceSuperlistChange();
+                this.experienceSuperlistProxy.splice(index, 1);
                 const keys = [...state.experienceListKeys];
                 keys.splice(index, 1);
                 return {experienceListKeys: keys};
@@ -89,17 +103,12 @@ class ExperienceSuperlist extends React.Component {
     swapExperienceLists(indexFirst, indexSecond) {
         this.setState(
             (state) => {
-                [this.experienceSuperlist[indexFirst], this.experienceSuperlist[indexSecond]] = [this.experienceSuperlist[indexSecond], this.experienceSuperlist[indexFirst]];
-                this.handleExperienceSuperlistChange();
+                [this.experienceSuperlistProxy[indexFirst], this.experienceSuperlistProxy[indexSecond]] = [this.experienceSuperlist[indexSecond], this.experienceSuperlist[indexFirst]];
                 const keys = [...state.experienceListKeys];
                 [keys[indexFirst], keys[indexSecond]] = [keys[indexSecond], keys[indexFirst]];
                 return {experienceListKeys: keys};
             }
         );
-    }
-
-    handleExperienceSuperlistChange() {
-        this.props.onExperienceSuperlistChange(this.experienceSuperlist);
     }
 }
 

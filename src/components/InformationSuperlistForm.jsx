@@ -5,15 +5,31 @@ import InformationListForm from "./InformationListForm";
 import KeyGenerator from "../KeyGenerator.js";
 
 class InformationSuperlistForm extends React.Component {
+    static defaultProps = {
+        onInformationSuperlistChange: (informationSuperlist) => {}
+    }
+
     constructor(props) {
         super(props);
 
         if (this.props.informationSuperlist === undefined) {
             this.informationSuperlist = [];
+            this.props.onInformationSuperlistChange(this.informationSuperlist);
         }
         else {
             this.informationSuperlist = this.props.informationSuperlist;
         }
+
+        this.informationSuperlistProxy = new Proxy(this.informationSuperlist, {
+            set: (informationSuperlist, prop, value) => {
+                if (informationSuperlist[prop] !== value) {
+                    informationSuperlist[prop] = value;
+                    this.props.onInformationSuperlistChange(informationSuperlist);
+                }
+
+                return true;
+            }
+        });
 
         this.keyGenerator = new KeyGenerator();
         this.state = {informationListKeys: this.keyGenerator.generateKeys(this.informationSuperlist.length)};
@@ -23,9 +39,9 @@ class InformationSuperlistForm extends React.Component {
         return (
             <CollapsibleList
             title="Informations"
-            titleReadOnly={true}
+            titleEditible={false}
             deletable={false}
-            addable={true}
+            addable
             addLabel="Add Information List"
             onAdd={() => this.addInformationList()}
             movableUp={false}
@@ -43,7 +59,7 @@ class InformationSuperlistForm extends React.Component {
                 <InformationListForm
                 key={this.state.informationListKeys[i]}
                 informationList={this.informationSuperlist[i]}
-                onInformationListChange={() => this.handleInformationSuperlistChange()}
+                onInformationListChange={() => this.props.onInformationSuperlistChange(this.informationSuperlist)}
                 onDelete={() => this.deleteInformationList(i)}
                 movableUp={i > 0}
                 onMoveUp={() => this.moveInformationListUp(i)}
@@ -59,8 +75,7 @@ class InformationSuperlistForm extends React.Component {
         this.setState(
             (state) => {
                 const key = this.keyGenerator.generateKey();
-                this.informationSuperlist.push(new InformationList("Information List " + key));
-                this.handleInformationSuperlistChange();
+                this.informationSuperlistProxy.push(new InformationList("Information List " + key));
                 return {informationListKeys: [...state.informationListKeys, key]};
             }
         );
@@ -69,8 +84,7 @@ class InformationSuperlistForm extends React.Component {
     deleteInformationList(index) {
         this.setState(
             (state) => {
-                this.informationSuperlist.splice(index, 1);
-                this.handleInformationSuperlistChange();
+                this.informationSuperlistProxy.splice(index, 1);
                 const keys = [...state.informationListKeys];
                 keys.splice(index, 1);
                 return {informationListKeys: keys};
@@ -89,17 +103,12 @@ class InformationSuperlistForm extends React.Component {
     swapInformationLists(indexFirst, indexSecond) {
         this.setState(
             (state) => {
-                [this.informationSuperlist[indexFirst], this.informationSuperlist[indexSecond]] = [this.informationSuperlist[indexSecond], this.informationSuperlist[indexFirst]];
-                this.handleInformationSuperlistChange();
+                [this.informationSuperlistProxy[indexFirst], this.informationSuperlistProxy[indexSecond]] = [this.informationSuperlist[indexSecond], this.informationSuperlist[indexFirst]];
                 const keys = [...state.informationListKeys];
                 [keys[indexFirst], keys[indexSecond]] = [keys[indexSecond], keys[indexFirst]];
                 return {informationListKeys: keys};
             }
         );
-    }
-
-    handleInformationSuperlistChange() {
-        this.props.onInformationSuperlistChange(this.informationSuperlist);
     }
 }
 

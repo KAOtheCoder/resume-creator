@@ -3,14 +3,20 @@ import "./CollapsibleComponent.css";
 import EditibleLabel from "./EditibleLabel";
 
 class CollapsibleComponent extends React.Component {
+    static defaultProps = {
+        expanded: true,
+        titleEditible: false,
+        onTitleChange: (title) => {}
+    }
+
     constructor(props) {
         super(props);
 
-        this.state = { expanded: true };
+        this.state = { expanded: this.props.expanded };
     }
 
     toggle() {
-        this.setState({ expanded: !this.state.expanded });
+        this.setState((state) => { return {expanded: !state.expanded}; });
     }
 
     render() {
@@ -30,8 +36,8 @@ class CollapsibleComponent extends React.Component {
                     <EditibleLabel
                     className="CollapsibleComponent-TitleLabel"
                     text={this.props.title}
-                    onChange={(event) => this.handleTitleChange(event.target.value)}
-                    readOnly={this.props.titleReadOnly}
+                    onChange={(event) => this.props.onTitleChange(event.target.value)}
+                    readOnly={!this.props.titleEditible}
                     />
                     {this.props.titleComponents}
                 </div>
@@ -43,11 +49,6 @@ class CollapsibleComponent extends React.Component {
                 </div>
             </div>
         );
-    }
-
-    handleTitleChange(title) {
-        if (this.props.onTitleChange !== undefined)
-            this.props.onTitleChange(title);
     }
 }
 

@@ -9,8 +9,13 @@
     text-align: left;
 }
 
+.EditibleLabel:hover {
+    color: green;
+}
+
 .EditibleLabel:focus {
     border-color: green;
+    color: white;
 }
 
 .EditibleLabel:read-only {

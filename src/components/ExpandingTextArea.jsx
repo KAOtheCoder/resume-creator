@@ -2,6 +2,10 @@ import React from "react";
 import "./ExpandingTextArea.css";
 
 class ExpandingTextArea extends React.Component {
+    static defaultProps = {
+        onChange: (event) => {}
+    }
+
     constructor(props) {
         super(props);
 
@@ -22,9 +26,7 @@ class ExpandingTextArea extends React.Component {
 
     handleOnChange(event) {
         this.updateSize();
-
-        if (this.props.onChange !== undefined)
-            this.props.onChange(event);
+        this.props.onChange(event);
     }
 
     updateSize() {

@@ -8,10 +8,31 @@ import InformationSuperlistForm from "./InformationSuperlistForm";
 import ExperienceSuperlistForm from "./ExperienceSuperlistForm";
 
 class ResumeForm extends React.Component {
+    static defaultProps = {
+        onResumeChange: (resume) => {}
+    }
+
     constructor(props) {
         super(props);
 
-        this.resume = new Resume("");
+        if (this.props.resume === undefined) {
+            this.resume = new Resume("");
+            this.props.onResumeChange(this.resume);
+        }
+        else {
+            this.resume = this.props.resume;
+        }
+
+        this.resumeProxy = new Proxy(this.resume, {
+            set: (resume, prop, value) => {
+                if (resume[prop] !== value) {
+                    resume[prop] = value;
+                    this.props.onResumeChange(resume);
+                }
+
+                return true;
+            }
+        });
     }
 
     render() {
@@ -19,19 +40,19 @@ class ResumeForm extends React.Component {
             <div className="ResumeForm">
                 <UnderlinedInput 
                 placeholder="Name"
-                onChange={(event) => this.handleNameChange(event.target.value)}
+                onChange={(event) => this.resumeProxy.name = event.target.value}
                 />
                 <ExpandingTextArea
                 placeholder="Brief"
-                onChange={(event) => this.handleBriefChange(event.target.value)}
+                onChange={(event) => this.resumeProxy.brief = event.target.value}
                 />
                 <InformationSuperlistForm
                 informationSuperlist={this.resume.informationSuperlist}
-                onInformationSuperlistChange={(informationSuperlist) => this.handleInformationSuperlistChange(informationSuperlist)}
+                onInformationSuperlistChange={(informationSuperlist) => this.resumeProxy.informationSuperlist = informationSuperlist}
                 />
                 <ExperienceSuperlistForm
                 experienceSuperlist={this.resume.experienceSuperlist}
-                onExperienceSuperlistChange={(experienceSuperlist) => this.handleExperienceSuperlistChange(experienceSuperlist)}
+                onExperienceSuperlistChange={(experienceSuperlist) => this.resumeProxy.experienceSuperlist = experienceSuperlist}
                 />
                 <button
                 onClick={() => this.createResume() }
@@ -46,22 +67,6 @@ class ResumeForm extends React.Component {
         const resumeCreator = new ResumeCreator();
         const doc = resumeCreator.createResume(this.resume);
         doc.output("dataurlnewwindow");
-    }
-
-    handleNameChange(name) {
-        this.resume.name = name;
-    }
-
-    handleBriefChange(brief) {
-        this.resume.brief = brief;
-    }
-
-    handleInformationSuperlistChange(informationSuperlist) {
-        this.resume.informationSuperlist = informationSuperlist;
-    }
-
-    handleExperienceSuperlistChange(experienceSuperlist) {
-        this.resume.experienceSuperlist = experienceSuperlist;
     }
 }
 

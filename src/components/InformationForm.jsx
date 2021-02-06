@@ -8,20 +8,37 @@ import Slider from "./Slider";
 import SpinBox from "./SpinBox";
 
 class InformationForm extends React.Component {
+    static defaultProps = {
+        onInformationChange: (information) => {} 
+    }
+
     constructor(props) {
         super(props);
 
         if (this.props.information === undefined) {
             this.information = new Information("Key");
-            this.handleInformationChange();
+            this.props.onInformationChange(this.information);
         }
         else {
             this.information = this.props.information;
         }
 
+        this.informationProxy = new Proxy(this.information, {
+            set: (information, prop, value) => {
+                if (information[prop] !== value) {
+                    information[prop] = value;
+                    this.props.onInformationChange(information);
+                }
+                
+                return true;
+            }
+        });
+
+        const ratingEnabled = this.information.rating >= 0;
+        
         this.state = {
-            ratingEnabled: this.information.rating >= 0,
-            rating: this.information.rating >= 0 ? this.information.rating : 50
+            ratingEnabled: ratingEnabled,
+            rating: ratingEnabled ? this.information.rating : 50
         };
     }
 
@@ -29,7 +46,7 @@ class InformationForm extends React.Component {
         const components = [
             <CheckBox
             key="checkBox"
-            checked={this.information.rating >= 0}
+            checked={this.state.ratingEnabled}
             label="Rating"
             onToggle={(checked) => this.setRatingEnabled(checked)}
             />
@@ -72,9 +89,9 @@ class InformationForm extends React.Component {
         return (
             <CollapsibleList
             title={this.information.key}
-            titleReadOnly={false}
-            onTitleChange={(title) => this.handleKeyChange(title)}
-            deletable={true}
+            titleEditible
+            onTitleChange={(title) => this.informationProxy.key = title}
+            deletable
             onDelete={this.props.onDelete}
             addable={false}
             movableUp={this.props.movableUp}
@@ -86,7 +103,7 @@ class InformationForm extends React.Component {
                 key="value"
                 defaultValue={this.information.value}
                 placeholder="Value"
-                onChange={(event) => this.handleValueChange(event.target.value)}
+                onChange={(event) => this.informationProxy.value = event.target.value}
                 />,
                 this.getRatingRow()
             ]}
@@ -94,33 +111,14 @@ class InformationForm extends React.Component {
         );
     }
 
-    handleKeyChange(key) {
-        this.information.key = key;
-        this.handleInformationChange();
-    }
-
-    handleValueChange(value) {
-        this.information.value = value;
-        this.handleInformationChange();
-    }
-
     setRatingEnabled(enabled) {
-        this.information.rating = enabled ? this.state.rating : -1;
-        this.handleInformationChange();
+        this.informationProxy.rating = enabled ? this.state.rating : -1;
         this.setState((state) => {return {ratingEnabled: enabled}});
     }
 
     handleRatingChange(rating) {
-        if (this.information.rating !== rating && this.information.rating >= 0) {
-            this.information.rating = rating;
-            this.handleInformationChange();
-        }
-
+        this.informationProxy.rating = rating;
         this.setState({rating: rating});
-    }
-
-    handleInformationChange() {
-        this.props.onInformationChange(this.information);
     }
 }
 

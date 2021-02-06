@@ -5,6 +5,17 @@ import "./CollapsibleList.css";
 import "./CollapsibleComponent.css";
 
 class CollapsibleList extends React.Component {
+    static defaultProps = {
+        addable: false,
+        onAdd: () => {},
+        movableUp: false,
+        onMoveUp: () => {},
+        movableDown: false,
+        onMoveDown: () => {},
+        deletable: false,
+        onDelete: () => {}
+    }
+
     getAddButton() {
         if (this.props.addable)
             return (
@@ -71,7 +82,7 @@ class CollapsibleList extends React.Component {
             <CollapsibleComponent
             title={this.props.title}
             onTitleChange={this.props.onTitleChange}
-            titleReadOnly={this.props.titleReadOnly}
+            titleEditible={this.props.titleEditible}
             titleComponents={this.getTitleButtons()}
             content={
                 <div className="CollapsibleList-Elements">

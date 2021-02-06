@@ -5,16 +5,31 @@ import ExperienceForm from "./ExperienceForm";
 import KeyGenerator from "../KeyGenerator.js";
 
 class ExperienceListForm extends React.Component {
+    static defaultProps = {
+        onExperienceListChange: (experienceList) => {}
+    }
+
     constructor(props) {
         super(props);
 
         if (this.props.experienceList === undefined) {
             this.experienceList = new ExperienceList("Experience List");
-            this.handleExperienceListChange();
+            this.props.onExperienceListChange(this.experienceList);
         }
         else {
             this.experienceList = this.props.experienceList;
         }
+
+        this.experienceListProxy = new Proxy(this.experienceList, {
+            set: (experienceList, prop, value) => {
+                if (experienceList[prop] !== value) {
+                    experienceList[prop] = value;
+                    this.props.onExperienceListChange(experienceList);
+                }
+
+                return true;
+            }
+        });
 
         this.keyGenerator = new KeyGenerator();
         this.state = {experienceKeys: this.keyGenerator.generateKeys(this.experienceList.experiences.length)};
@@ -24,11 +39,11 @@ class ExperienceListForm extends React.Component {
         return (
             <CollapsibleList
             title={this.experienceList.header}
-            titleReadOnly={false}
-            onTitleChange={(title) => this.handleHeaderChange(title)}
-            deletable={true}
+            titleEditible
+            onTitleChange={(title) => this.experienceListProxy.header = title}
+            deletable
             onDelete={this.props.onDelete}
-            addable={true}
+            addable
             addLabel="Add Experience"
             onAdd={() => this.addExperience()}
             movableUp={this.props.movableUp}
@@ -48,7 +63,7 @@ class ExperienceListForm extends React.Component {
                 <ExperienceForm
                 key={this.state.experienceKeys[i]}
                 experience={this.experienceList.experiences[i]}
-                onExperienceChange={() => this.handleExperienceListChange()}
+                onExperienceChange={(experience) => this.props.onExperienceListChange(this.experienceList)}
                 onDelete={() => this.deleteExperience(i)}
                 movableUp={i > 0}
                 onMoveUp={() => this.moveExperienceUp(i)}
@@ -65,7 +80,7 @@ class ExperienceListForm extends React.Component {
             (state) => {
                 const key = this.keyGenerator.generateKey();
                 this.experienceList.experiences.push(new Experience("Experience " + key, "", "", ""));
-                this.handleExperienceListChange();
+                this.props.onExperienceListChange(this.experienceList);
                 return {experienceKeys: [...state.experienceKeys, key]};
             }
         );
@@ -75,7 +90,7 @@ class ExperienceListForm extends React.Component {
         this.setState(
             (state) => {
                 this.experienceList.experiences.splice(index, 1);
-                this.handleExperienceListChange();
+                this.props.onExperienceListChange(this.experienceList);
                 const keys = [...state.experienceKeys];
                 keys.splice(index, 1);
                 return {experienceKeys: keys};
@@ -94,23 +109,14 @@ class ExperienceListForm extends React.Component {
     swapExperiences(indexFirst, indexSecond) {
         this.setState(
             (state) => {
-                let experiences = this.experienceList.experiences;
+                const experiences = this.experienceList.experiences;
                 [experiences[indexFirst], experiences[indexSecond]] = [experiences[indexSecond], experiences[indexFirst]];
-                this.handleExperienceListChange();
+                this.props.onExperienceListChange(this.experienceList);
                 const keys = [...state.experienceKeys];
                 [keys[indexFirst], keys[indexSecond]] = [keys[indexSecond], keys[indexFirst]];
                 return {experienceKeys: keys};
             }
         );
-    }
-
-    handleHeaderChange(header) {
-        this.experienceList.header = header;
-        this.handleExperienceListChange();
-    }
-
-    handleExperienceListChange() {
-        this.props.onExperienceListChange(this.ExperienceList);
     }
 }
 
