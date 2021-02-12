@@ -6,6 +6,7 @@ import UnderlinedInput from "./UnderlinedInput";
 import ExpandingTextArea from "./ExpandingTextArea";
 import InformationSuperlistForm from "./InformationSuperlistForm";
 import ExperienceSuperlistForm from "./ExperienceSuperlistForm";
+import createChangeProxy from "../ChangeProxy";
 
 class ResumeForm extends React.Component {
     static defaultProps = {
@@ -23,16 +24,7 @@ class ResumeForm extends React.Component {
             this.resume = this.props.resume;
         }
 
-        this.resumeProxy = new Proxy(this.resume, {
-            set: (resume, prop, value) => {
-                if (resume[prop] !== value) {
-                    resume[prop] = value;
-                    this.props.onResumeChange(resume);
-                }
-
-                return true;
-            }
-        });
+        this.resumeProxy = createChangeProxy(this.resume, this.props.onResumeChange(this.resume));
     }
 
     render() {

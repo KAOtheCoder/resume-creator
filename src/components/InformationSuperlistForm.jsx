@@ -3,6 +3,7 @@ import { InformationList } from "../Resume";
 import CollapsibleList from "./CollapsibleList";
 import InformationListForm from "./InformationListForm";
 import KeyGenerator from "../KeyGenerator.js";
+import createChangeProxy from "../ChangeProxy";
 
 class InformationSuperlistForm extends React.Component {
     static defaultProps = {
@@ -20,17 +21,7 @@ class InformationSuperlistForm extends React.Component {
             this.informationSuperlist = this.props.informationSuperlist;
         }
 
-        this.informationSuperlistProxy = new Proxy(this.informationSuperlist, {
-            set: (informationSuperlist, prop, value) => {
-                if (informationSuperlist[prop] !== value) {
-                    informationSuperlist[prop] = value;
-                    this.props.onInformationSuperlistChange(informationSuperlist);
-                }
-
-                return true;
-            }
-        });
-
+        this.informationSuperlistProxy = createChangeProxy(this.informationSuperlist, () => this.props.onInformationSuperlistChange(this.informationSuperlist));
         this.keyGenerator = new KeyGenerator();
         this.state = {informationListKeys: this.keyGenerator.generateKeys(this.informationSuperlist.length)};
     }

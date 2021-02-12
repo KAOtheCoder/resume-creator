@@ -6,6 +6,7 @@ import CheckBox from "./CheckBox";
 import "./InformationForm.css";
 import Slider from "./Slider";
 import SpinBox from "./SpinBox";
+import createChangeProxy from "../ChangeProxy";
 
 class InformationForm extends React.Component {
     static defaultProps = {
@@ -23,16 +24,7 @@ class InformationForm extends React.Component {
             this.information = this.props.information;
         }
 
-        this.informationProxy = new Proxy(this.information, {
-            set: (information, prop, value) => {
-                if (information[prop] !== value) {
-                    information[prop] = value;
-                    this.props.onInformationChange(information);
-                }
-                
-                return true;
-            }
-        });
+        this.informationProxy = createChangeProxy(this.informationProxy, () => this.props.onInformationChange(this.information));
 
         const ratingEnabled = this.information.rating >= 0;
         

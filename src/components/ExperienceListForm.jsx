@@ -3,6 +3,7 @@ import { Experience, ExperienceList } from "../Resume";
 import CollapsibleList from "./CollapsibleList";
 import ExperienceForm from "./ExperienceForm";
 import KeyGenerator from "../KeyGenerator.js";
+import createChangeProxy from "../ChangeProxy";
 
 class ExperienceListForm extends React.Component {
     static defaultProps = {
@@ -20,17 +21,8 @@ class ExperienceListForm extends React.Component {
             this.experienceList = this.props.experienceList;
         }
 
-        this.experienceListProxy = new Proxy(this.experienceList, {
-            set: (experienceList, prop, value) => {
-                if (experienceList[prop] !== value) {
-                    experienceList[prop] = value;
-                    this.props.onExperienceListChange(experienceList);
-                }
-
-                return true;
-            }
-        });
-
+        this.experienceListProxy = createChangeProxy(this.experienceList, () => this.props.onExperienceListChange(this.experienceList));
+        this.experiencesProxy = createChangeProxy(this.experienceList.experiences, () => this.props.onExperienceListChange(this.experienceList));
         this.keyGenerator = new KeyGenerator();
         this.state = {experienceKeys: this.keyGenerator.generateKeys(this.experienceList.experiences.length)};
     }
@@ -79,8 +71,7 @@ class ExperienceListForm extends React.Component {
         this.setState(
             (state) => {
                 const key = this.keyGenerator.generateKey();
-                this.experienceList.experiences.push(new Experience("Experience " + key, "", "", ""));
-                this.props.onExperienceListChange(this.experienceList);
+                this.experiencesProxy.push(new Experience("Experience " + key, "", "", ""));
                 return {experienceKeys: [...state.experienceKeys, key]};
             }
         );
@@ -89,8 +80,7 @@ class ExperienceListForm extends React.Component {
     deleteExperience(index) {
         this.setState(
             (state) => {
-                this.experienceList.experiences.splice(index, 1);
-                this.props.onExperienceListChange(this.experienceList);
+                this.experiencesProxy.splice(index, 1);
                 const keys = [...state.experienceKeys];
                 keys.splice(index, 1);
                 return {experienceKeys: keys};
@@ -109,9 +99,7 @@ class ExperienceListForm extends React.Component {
     swapExperiences(indexFirst, indexSecond) {
         this.setState(
             (state) => {
-                const experiences = this.experienceList.experiences;
-                [experiences[indexFirst], experiences[indexSecond]] = [experiences[indexSecond], experiences[indexFirst]];
-                this.props.onExperienceListChange(this.experienceList);
+                [this.experiencesProxy[indexFirst], this.experiencesProxy[indexSecond]] = [this.experiencesProxy[indexSecond], this.experiencesProxy[indexFirst]];
                 const keys = [...state.experienceKeys];
                 [keys[indexFirst], keys[indexSecond]] = [keys[indexSecond], keys[indexFirst]];
                 return {experienceKeys: keys};

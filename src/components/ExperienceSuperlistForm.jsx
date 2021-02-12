@@ -3,6 +3,7 @@ import KeyGenerator from "../KeyGenerator";
 import ExperienceListForm from "./ExperienceListForm";
 import CollapsibleList from "./CollapsibleList";
 import { ExperienceList } from "../Resume";
+import createChangeProxy from "../ChangeProxy";
 
 class ExperienceSuperlist extends React.Component {
     static defaultProps = {
@@ -20,17 +21,7 @@ class ExperienceSuperlist extends React.Component {
             this.experienceSuperlist = this.props.experienceSuperlist;
         }
 
-        this.experienceSuperlistProxy = new Proxy(this.experienceSuperlist, {
-            set: (experienceSuperlist, prop, value) => {
-                if (experienceSuperlist[prop] !== value) {
-                    experienceSuperlist[prop] = value;
-                    this.props.onExperienceSuperlistChange(experienceSuperlist);
-                }
-
-                return true;
-            }
-        });
-
+        this.experienceSuperlistProxy = createChangeProxy(this.experienceSuperlist, () => this.props.onExperienceSuperlistChange(this.experienceSuperlist));
         this.keyGenerator = new KeyGenerator();
         this.state = {experienceListKeys: this.keyGenerator.generateKeys(this.experienceSuperlist.length)};
     }

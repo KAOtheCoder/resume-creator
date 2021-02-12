@@ -3,6 +3,7 @@ import { Information, InformationList } from "../Resume";
 import CollapsibleList from "./CollapsibleList";
 import InformationForm from "./InformationForm";
 import KeyGenerator from "../KeyGenerator.js";
+import createChangeProxy from "../ChangeProxy";
 
 class InformationListForm extends React.Component {
     static defaultProps = {
@@ -20,17 +21,8 @@ class InformationListForm extends React.Component {
             this.informationList = this.props.informationList;
         }
 
-        this.informationListProxy = new Proxy(this.informationList, {
-            set: (informationList, prop, value) => {
-                if (informationList[prop] !== value) {
-                    informationList[prop] = value;
-                    this.props.onInformationListChange(informationList);
-                }
-                
-                return true;
-            }
-        });
-
+        this.informationListProxy = createChangeProxy(this.informationList, () => this.props.onInformationListChange(this.informationList));
+        this.informationsProxy = createChangeProxy(this.informationList.informations, () => this.props.onInformationListChange(this.informationList));
         this.keyGenerator = new KeyGenerator();
         this.state = {informationKeys: this.keyGenerator.generateKeys(this.informationList.informations.length)};
     }
@@ -79,8 +71,7 @@ class InformationListForm extends React.Component {
         this.setState(
             (state) => {
                 const key = this.keyGenerator.generateKey();
-                this.informationList.informations.push(new Information("Key " + key));
-                this.props.onInformationListChange(this.informationList);
+                this.informationsProxy.push(new Information("Key " + key));
                 return {informationKeys: [...state.informationKeys, key]};
             }
         );
@@ -89,8 +80,7 @@ class InformationListForm extends React.Component {
     deleteInformation(index) {
         this.setState(
             (state) => {
-                this.informationList.informations.splice(index, 1);
-                this.props.onInformationListChange(this.informationList);
+                this.informationsProxy.splice(index, 1);
                 const keys = [...state.informationKeys];
                 keys.splice(index, 1);
                 return {informationKeys: keys};
@@ -109,9 +99,7 @@ class InformationListForm extends React.Component {
     swapInformations(indexFirst, indexSecond) {
         this.setState(
             (state) => {
-                const informations = this.informationList.informations;
-                [informations[indexFirst], informations[indexSecond]] = [informations[indexSecond], informations[indexFirst]];
-                this.props.onInformationListChange(this.informationList);
+                [this.informationsProxy[indexFirst], this.informationsProxy[indexSecond]] = [this.informationsProxy[indexSecond], this.informationsProxy[indexFirst]];
                 const keys = [...state.informationKeys];
                 [keys[indexFirst], keys[indexSecond]] = [keys[indexSecond], keys[indexFirst]];
                 return {informationKeys: keys};

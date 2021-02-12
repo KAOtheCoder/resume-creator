@@ -3,6 +3,7 @@ import CollapsibleList from "./CollapsibleList";
 import UnderlinedInput from "./UnderlinedInput";
 import { Experience } from "../Resume";
 import ExpandingTextArea from "./ExpandingTextArea";
+import createChangeProxy from "../ChangeProxy";
 
 class ExperienceForm extends React.Component {
     static defaultProps = {
@@ -20,16 +21,7 @@ class ExperienceForm extends React.Component {
             this.experience = this.props.experience;
         }
 
-        this.experienceProxy = new Proxy(this.experience, {
-            set: (experience, prop, value) => {
-                if (experience[prop] !== value) {
-                    experience[prop] = value;
-                    this.props.onExperienceChange(experience);
-                }
-
-                return true;
-            }
-        });
+        this.experienceProxy = createChangeProxy(this.experience, () => this.props.onExperienceChange(this.experience));
     }
 
     render() {
