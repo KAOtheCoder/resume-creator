@@ -140,7 +140,16 @@ class ResumeCreator {
 
         this.doc.setFont(this.doc.getFont().fontName, "normal");
         this.doc.setFontSize(DATE_FONT_SIZE);
-        this.printText(x, y, DATE_WIDTH, experience.startDate + "\n" + experience.endDate, visible);
+
+        if (experience.startDate) {
+            const dateToString = (date) => { return date.getFullYear() + "-" + (date.getMonth() + 1).toString().padStart(2, "0") }
+            let dateString = dateToString(experience.startDate);
+
+            if (experience.endDate)
+                dateString += " -\n" + dateToString(experience.endDate);
+
+            this.printText(x, y, DATE_WIDTH, dateString, visible);
+        }
         
         const experienceX = x + DATE_WIDTH + SPACING2;
         const experienceWidth = width - DATE_WIDTH - SPACING2;

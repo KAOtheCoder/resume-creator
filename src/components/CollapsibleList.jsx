@@ -20,6 +20,7 @@ class CollapsibleList extends React.Component {
         if (this.props.addable)
             return (
                 <AddButton
+                className="CollapsibleList-AddButton"
                 key="add"
                 label={this.props.addLabel}
                 onClick={this.props.onAdd}

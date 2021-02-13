@@ -1,0 +1,13 @@
+.ExperienceForm-HeaderLink, .ExperienceForm-Date, .ExperienceForm-EndDate {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+}
+
+.ExperienceForm-HeaderLinkInput {
+    flex-grow: 1;
+}
+
+.ExperienceForm-Date {
+    justify-content: space-between;
+}

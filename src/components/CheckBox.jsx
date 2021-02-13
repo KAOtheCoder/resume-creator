@@ -3,13 +3,14 @@ import "./CheckBox.css";
 
 class CheckBox extends React.Component {
     static defaultProps = {
-        onToggle: (checked) => {}
+        onToggle: (checked) => {},
+        checked: false
     }
 
     constructor(props) {
         super(props);
 
-        this.state = {checked: this.props.checked ? true : false}
+        this.state = {checked: this.props.checked}
     }
 
     render() {

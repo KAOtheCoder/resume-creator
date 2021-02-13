@@ -24,7 +24,7 @@ class InformationForm extends React.Component {
             this.information = this.props.information;
         }
 
-        this.informationProxy = createChangeProxy(this.informationProxy, () => this.props.onInformationChange(this.information));
+        this.informationProxy = createChangeProxy(this.information, () => this.props.onInformationChange(this.information));
 
         const ratingEnabled = this.information.rating >= 0;
         

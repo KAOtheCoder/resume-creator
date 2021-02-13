@@ -5,7 +5,7 @@ class AddButton extends React.Component {
     render() {
         return (
             <button
-            className="AddButton"
+            className={this.props.className + " AddButton"}
             onClick={this.props.onClick}
             >
                 <i className="material-icons AddButton-Icon">add</i>

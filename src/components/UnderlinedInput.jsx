@@ -5,7 +5,7 @@ class UnderlinedInput extends React.Component {
     render() {
         return (
             <input
-            className="UnderlinedInput"
+            className={this.props.className + " UnderlinedInput"}
             type="text"
             placeholder={this.props.placeholder}
             onChange={this.props.onChange}

@@ -23,8 +23,8 @@ class Experience {
     constructor(
         header, 
         description, 
-        startDate = "",
-        endDate = "",
+        startDate = null,
+        endDate = null,
         headerIcon = null, 
         headerDescription = "", 
         headerLink = "", 
