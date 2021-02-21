@@ -1,11 +1,13 @@
 import React from "react";
-import CollapsibleComponent from "./CollapsibleComponent";
 import AddButton from "./AddButton";
 import "./CollapsibleList.css";
-import "./CollapsibleComponent.css";
+import EditableLabel from "./EditableLabel";
 
 class CollapsibleList extends React.Component {
     static defaultProps = {
+        expanded: true,
+        titleEditable: false,
+        onTitleChange: (title) => {},
         addable: false,
         onAdd: () => {},
         movableUp: false,
@@ -14,6 +16,16 @@ class CollapsibleList extends React.Component {
         onMoveDown: () => {},
         deletable: false,
         onDelete: () => {}
+    }
+
+    constructor(props) {
+        super(props);
+
+        this.state = { expanded: this.props.expanded};
+    }
+
+    toggleCollapse() {
+        this.setState((state) => { return {expanded: !state.expanded}; });
     }
 
     getAddButton() {
@@ -34,24 +46,24 @@ class CollapsibleList extends React.Component {
 
         if (this.props.movableUp)
             moveButtons.push(
-                <button
+                <i
+                className="material-icons CollapsibleList-Button CollapsibleList-MoveButton"
                 key="moveUp"
-                className="CollapsibleComponent-Button CollapsibleList-MoveButton"
                 onClick={this.props.onMoveUp}
                 >
-                    <i className="material-icons CollapsibleComponent-Icon">arrow_drop_up</i>
-                </button>
+                    arrow_drop_up
+                </i>
             );
 
         if (this.props.movableDown)
             moveButtons.push(
-                <button
+                <i
+                className="material-icons CollapsibleList-Button CollapsibleList-MoveButton"
                 key="moveDown"
-                className="CollapsibleComponent-Button CollapsibleList-MoveButton"
                 onClick={this.props.onMoveDown}
                 >
-                    <i className="material-icons CollapsibleComponent-Icon">arrow_drop_down</i>
-                </button>
+                    arrow_drop_down
+                </i>
             );
             
         if (moveButtons.length > 0)
@@ -66,32 +78,48 @@ class CollapsibleList extends React.Component {
 
         if (this.props.deletable)
             titleButtons.push(
-                <button
+                <i
+                className="material-icons CollapsibleList-Button"
                 key="delete"
-                className="CollapsibleComponent-Button"
                 onClick={this.props.onDelete}
                 >
-                    <i className="material-icons CollapsibleComponent-Icon">delete</i>
-                </button>
+                    delete
+                </i>
             );
 
         return titleButtons;
     }
 
     render() {
+        const expandIcon = this.state.expanded ? "expand_more" : "chevron_right";
+
         return (
-            <CollapsibleComponent
-            title={this.props.title}
-            onTitleChange={this.props.onTitleChange}
-            titleEditable={this.props.titleEditable}
-            titleComponents={this.getTitleButtons()}
-            content={
-                <div className="CollapsibleList-Elements">
+            <div className="CollapsibleList">
+                <i 
+                className="material-icons CollapsibleList-Button"
+                onClick={() => this.toggleCollapse()}
+                >
+                    {expandIcon}
+                </i>
+                <div
+                className="CollapsibleList-Title"
+                >
+                    <EditableLabel
+                    className="CollapsibleList-TitleLabel"
+                    text={this.props.title}
+                    onChange={(event) => this.props.onTitleChange(event.target.value)}
+                    readOnly={!this.props.titleEditable}
+                    />
+                    {this.getTitleButtons()}
+                </div>
+                <div
+                className="CollapsibleList-Elements"
+                style={{display: this.state.expanded ? "" : "none"}}
+                >
                     {this.props.elements}
                     {this.getAddButton()}
                 </div>
-            }
-            />
+            </div>
         );
     }
 }

@@ -1,7 +1,42 @@
+.CollapsibleList {
+    background-color: rgba(127, 127, 127, 0.1);
+    border-radius: 8px;
+    padding: 8px;
+    display: grid;
+    grid-template-columns: 24px auto;
+    gap: 4px;
+}
+
+.CollapsibleList-Title {
+    grid-column: 2;
+    grid-row: 1;
+    display: flex;
+    flex-direction: row;
+}
+
+.CollapsibleList-TitleLabel {
+    flex-grow: 1;
+}
+
 .CollapsibleList-Elements {
+    grid-column: 2;
+    grid-row: 2;
     display: flex;
     flex-direction: column;
     gap: 8px;
+}
+
+.CollapsibleList-Button {
+    padding: 0px;
+    background: none;
+    border: none;
+    outline: none;
+    color: white;
+    cursor: pointer;
+}
+
+.CollapsibleList-Button:hover {
+    color: green;
 }
 
 .CollapsibleList-Move {
