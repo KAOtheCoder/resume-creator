@@ -1,4 +1,4 @@
-.EditibleLabel {
+.EditableLabel {
     background: none;
     border-color: transparent;
     border-width: 1px;
@@ -9,15 +9,15 @@
     text-align: left;
 }
 
-.EditibleLabel:hover {
+.EditableLabel:hover {
     color: green;
 }
 
-.EditibleLabel:focus {
+.EditableLabel:focus {
     border-color: green;
     color: white;
 }
 
-.EditibleLabel:read-only {
+.EditableLabel:read-only {
     pointer-events: none;
 }

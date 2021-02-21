@@ -30,13 +30,9 @@ class ExperienceSuperlist extends React.Component {
         return (
             <CollapsibleList
             title="Experiences"
-            titleEditible={false}
-            deletable={false}
             addable
             addLabel="Add Experience List"
             onAdd={() => this.addExperienceList()}
-            movableUp={false}
-            movableDown={false}
             elements={this.getElements()}
             />
         );

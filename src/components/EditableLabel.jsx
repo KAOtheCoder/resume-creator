@@ -1,11 +1,11 @@
 import React from "react";
-import "./EditibleLabel.css";
+import "./EditableLabel.css";
 
-class EditibleLabel extends React.Component {
+class EditableLabel extends React.Component {
     render() {
         return (
             <input
-            className={this.props.className + " EditibleLabel"}
+            className={this.props.className + " EditableLabel"}
             type="text"
             defaultValue={this.props.text}
             onChange={this.props.onChange}
@@ -15,4 +15,4 @@ class EditibleLabel extends React.Component {
     }
 }
 
-export default EditibleLabel;
+export default EditableLabel;

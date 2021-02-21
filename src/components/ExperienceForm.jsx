@@ -7,6 +7,7 @@ import createChangeProxy from "../ChangeProxy";
 import "./ExperienceForm.css";
 import DateSelector from "./DateSelector";
 import CheckBox from "./CheckBox";
+import TagsForm from "./TagsForm";
 
 class ExperienceForm extends React.Component {
     static defaultProps = {
@@ -35,7 +36,7 @@ class ExperienceForm extends React.Component {
         return (
             <CollapsibleList
             title={this.experience.header}
-            titleEditible
+            titleEditable
             onTitleChange={(title) => this.experienceProxy.header = title}
             deletable
             onDelete={this.props.onDelete}
@@ -62,11 +63,10 @@ class ExperienceForm extends React.Component {
                     onChange={(event) => this.experienceProxy.headerLink = event.target.value}
                     />
                 </div>,
-                <ExpandingTextArea
-                key="description"
-                defaultValue={this.experience.description}
-                placeholder="Description"
-                onChange={(event) => this.experienceProxy.description = event.target.value}
+                <TagsForm 
+                    key="tags"
+                    tags={this.experience.tags}
+                    onTagsChange={(tags) => this.props.onExperienceChange(this.experience)}
                 />,
                 <div
                 className="ExperienceForm-Date"
@@ -92,7 +92,13 @@ class ExperienceForm extends React.Component {
                         />
                         {this.getEndDateSelector()}
                     </div>
-                </div>
+                </div>,
+                <ExpandingTextArea
+                key="description"
+                defaultValue={this.experience.description}
+                placeholder="Description"
+                onChange={(event) => this.experienceProxy.description = event.target.value}
+                />
             ]}
             />
         );

@@ -28,7 +28,7 @@ class Experience {
         headerIcon = null, 
         headerDescription = "", 
         headerLink = "", 
-        keywords = []) 
+        tags = []) 
     {
         this.header = header;
         this.description = description;
@@ -37,7 +37,7 @@ class Experience {
         this.headerIcon = headerIcon;
         this.headerDescription = headerDescription;
         this.headerLink = headerLink;
-        this.keywords = keywords;
+        this.tags = tags;
     }
 }
 

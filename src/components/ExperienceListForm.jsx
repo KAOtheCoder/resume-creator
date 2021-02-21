@@ -31,7 +31,7 @@ class ExperienceListForm extends React.Component {
         return (
             <CollapsibleList
             title={this.experienceList.header}
-            titleEditible
+            titleEditable
             onTitleChange={(title) => this.experienceListProxy.header = title}
             deletable
             onDelete={this.props.onDelete}

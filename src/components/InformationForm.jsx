@@ -81,7 +81,7 @@ class InformationForm extends React.Component {
         return (
             <CollapsibleList
             title={this.information.key}
-            titleEditible
+            titleEditable
             onTitleChange={(title) => this.informationProxy.key = title}
             deletable
             onDelete={this.props.onDelete}

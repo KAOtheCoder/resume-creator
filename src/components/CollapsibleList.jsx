@@ -83,7 +83,7 @@ class CollapsibleList extends React.Component {
             <CollapsibleComponent
             title={this.props.title}
             onTitleChange={this.props.onTitleChange}
-            titleEditible={this.props.titleEditible}
+            titleEditable={this.props.titleEditable}
             titleComponents={this.getTitleButtons()}
             content={
                 <div className="CollapsibleList-Elements">

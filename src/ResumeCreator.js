@@ -92,7 +92,7 @@ class ResumeCreator {
         this.printText(x, y, width, name, visible);
     } 
 
-    printKeywords(x, y, width, keywords, visible = true) {
+    printTags(x, y, width, tags, visible = true) {
         const MARGIN = 3;
         const SPACING = 3;
         const RADIUS = 3;
@@ -101,23 +101,23 @@ class ResumeCreator {
 
         this.doc.setTextColor("#3b87b8");
 
-        const keywordRectHeight = this.doc.getFontSize() + 2 * MARGIN;
+        const tagRectHeight = this.doc.getFontSize() + 2 * MARGIN;
         let currentX = x;
         let height = 0;
 
-        for (let i = 0; i < keywords.length; ++i) {
-            const rectWidth = this.doc.getTextWidth(keywords[i]) + 2 * MARGIN;
+        for (let i = 0; i < tags.length; ++i) {
+            const rectWidth = this.doc.getTextWidth(tags[i]) + 2 * MARGIN;
 
             if (currentX + rectWidth > x + width) {
                 currentX = x;
-                height += keywordRectHeight + SPACING;
+                height += tagRectHeight + SPACING;
             }
 
             if (visible) {
                 this.doc.setDrawColor(0);
                 this.doc.setFillColor("#e1ecf4");
-                this.doc.roundedRect(currentX, y + height, rectWidth, keywordRectHeight, RADIUS, RADIUS, "F");
-                this.doc.text(keywords[i], currentX + MARGIN, y + height + MARGIN, { align: "justify", baseline: "top" });
+                this.doc.roundedRect(currentX, y + height, rectWidth, tagRectHeight, RADIUS, RADIUS, "F");
+                this.doc.text(tags[i], currentX + MARGIN, y + height + MARGIN, { align: "justify", baseline: "top" });
             }
 
             currentX += rectWidth + SPACING;
@@ -125,7 +125,7 @@ class ResumeCreator {
 
         this.doc.setTextColor(textColor);
 
-        return height + keywordRectHeight;
+        return height + tagRectHeight;
     }
 
     printExperience(x, y, width, experience, visible = true) {
@@ -181,11 +181,11 @@ class ResumeCreator {
         if (visible && experience.headerLink.length > 0)
             this.doc.link(experienceX, y, experienceWidth, height, { url: experience.headerLink });
 
-        if (experience.keywords.length > 0) {
+        if (experience.tags.length > 0) {
             height += SPACING1;
             this.doc.setFont(this.doc.getFont().fontName, "normal");
             this.doc.setFontSize(KEYWORDS_FONT_SIZE);
-            height += this.printKeywords(experienceX, y + height, experienceWidth, experience.keywords, visible);
+            height += this.printTags(experienceX, y + height, experienceWidth, experience.tags, visible);
         }
         
         height += SPACING1;

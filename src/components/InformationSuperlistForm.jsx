@@ -30,7 +30,7 @@ class InformationSuperlistForm extends React.Component {
         return (
             <CollapsibleList
             title="Informations"
-            titleEditible={false}
+            titleEditable={false}
             deletable={false}
             addable
             addLabel="Add Information List"

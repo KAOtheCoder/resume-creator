@@ -1,7 +1,7 @@
 import React from 'react';
-import ResumeCreator from "./ResumeCreator";
-import { Experience, ExperienceList, Information, InformationList, Resume } from "./Resume";
-import ResumeForm from "./components/ResumeForm";
+import ResumeCreator from "../ResumeCreator";
+import { Experience, ExperienceList, Information, InformationList, Resume } from "../Resume";
+import ResumeForm from "./ResumeForm";
 import './App.css';
 
 class App extends React.Component {
@@ -31,7 +31,7 @@ class App extends React.Component {
         
         const experience = new Experience("Hello World", 
             LOREM_IPSUM, 
-            "2020-09", "current", 
+            new Date(2021, 1), new Date(2021, 2), 
             icon,
             "A Hello World Program Like Any Other",
             "https://www.google.com/search?q=hello+world",
