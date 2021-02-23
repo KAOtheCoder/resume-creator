@@ -10,12 +10,6 @@
 .CollapsibleList-Title {
     grid-column: 2;
     grid-row: 1;
-    display: flex;
-    flex-direction: row;
-}
-
-.CollapsibleList-TitleLabel {
-    flex-grow: 1;
 }
 
 .CollapsibleList-Elements {
@@ -37,20 +31,6 @@
 
 .CollapsibleList-Button:hover {
     color: green;
-}
-
-.CollapsibleList-Move {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.CollapsibleList-MoveButton {
-    overflow: hidden;
-    height: 13.5px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 .CollapsibleList-AddButton {

@@ -1,0 +1,22 @@
+.CollapsibleListTitle {
+    display: flex;
+    flex-direction: row;
+}
+
+.CollapsibleListTitle-Label {
+    flex-grow: 1;
+}
+
+.CollapsibleListTitle-Move {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.CollapsibleListTitle-MoveButton {
+    overflow: hidden;
+    height: 13.5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

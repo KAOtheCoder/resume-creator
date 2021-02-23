@@ -1,21 +1,13 @@
 import React from "react";
 import AddButton from "./AddButton";
 import "./CollapsibleList.css";
-import EditableLabel from "./EditableLabel";
+import CollapsibleListTitle from "./CollapsibleListTitle";
 
 class CollapsibleList extends React.Component {
     static defaultProps = {
         expanded: true,
-        titleEditable: false,
-        onTitleChange: (title) => {},
         addable: false,
         onAdd: () => {},
-        movableUp: false,
-        onMoveUp: () => {},
-        movableDown: false,
-        onMoveDown: () => {},
-        deletable: false,
-        onDelete: () => {}
     }
 
     constructor(props) {
@@ -97,23 +89,25 @@ class CollapsibleList extends React.Component {
             <div className="CollapsibleList">
                 <i 
                 className="material-icons CollapsibleList-Button"
+                key="toggle"
                 onClick={() => this.toggleCollapse()}
                 >
                     {expandIcon}
                 </i>
-                <div
-                className="CollapsibleList-Title"
-                >
-                    <EditableLabel
-                    className="CollapsibleList-TitleLabel"
-                    text={this.props.title}
-                    onChange={(event) => this.props.onTitleChange(event.target.value)}
-                    readOnly={!this.props.titleEditable}
-                    />
-                    {this.getTitleButtons()}
-                </div>
+                <CollapsibleListTitle
+                key="title"
+                title={this.props.title}
+                onTitleChange={this.props.onTitleChange}
+                movableUp={this.props.movableUp}
+                onMoveUp={this.props.onMoveUp}
+                movableDown={this.props.movableDown}
+                onMoveDown={this.props.onMoveUp}
+                deletable={this.props.deletable}
+                onDelete={this.props.onDelete}
+                />
                 <div
                 className="CollapsibleList-Elements"
+                key="elements"
                 style={{display: this.state.expanded ? "" : "none"}}
                 >
                     {this.props.elements}

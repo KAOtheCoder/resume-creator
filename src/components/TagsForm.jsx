@@ -2,6 +2,7 @@ import React from "react";
 import createChangeProxy from "../ChangeProxy";
 import CollapsibleList from "./CollapsibleList";
 import KeyGenerator from "../KeyGenerator";
+import CollapsibleListTitle from "./CollapsibleListTitle";
 
 class TagsForm extends React.Component {
     static defaultProps = {
@@ -41,7 +42,7 @@ class TagsForm extends React.Component {
 
         for (let i = 0; i < this.state.tagKeys.length; ++i)
             elements.push(
-                <CollapsibleList
+                <CollapsibleListTitle
                 key={this.state.tagKeys[i]}
                 title={this.tags[i]}
                 titleEditable
