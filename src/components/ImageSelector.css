@@ -1,0 +1,11 @@
+.ImageSelector {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+}
+
+.ImageSelector-Preview {
+    width: auto;
+    height: 24px;
+    margin-left: auto;
+}

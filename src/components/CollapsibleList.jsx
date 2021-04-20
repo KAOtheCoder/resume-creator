@@ -97,6 +97,7 @@ class CollapsibleList extends React.Component {
                 <CollapsibleListTitle
                 key="title"
                 title={this.props.title}
+                titleEditable={this.props.titleEditable}
                 onTitleChange={this.props.onTitleChange}
                 movableUp={this.props.movableUp}
                 onMoveUp={this.props.onMoveUp}

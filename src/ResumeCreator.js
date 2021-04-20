@@ -161,7 +161,7 @@ class ResumeCreator {
             const ICON_SIZE = HEADER_FONT_SIZE + HEADER_DESCRIPTION_FONT_SIZE + SPACING1;
             
             if (visible)
-                this.doc.addImage(experience.headerIcon, "png", experienceX, y, ICON_SIZE, ICON_SIZE);
+                this.doc.addImage(experience.headerIcon, "", experienceX, y, ICON_SIZE, ICON_SIZE);
             
             headerX += ICON_SIZE + SPACING1;
             headerWidth -= ICON_SIZE + SPACING1;

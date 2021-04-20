@@ -8,6 +8,8 @@ import "./ExperienceForm.css";
 import DateSelector from "./DateSelector";
 import CheckBox from "./CheckBox";
 import TagsForm from "./TagsForm";
+import ImageSelector from "./ImageSelector";
+import FileSelector from "./FileSelector";
 
 class ExperienceForm extends React.Component {
     static defaultProps = {
@@ -50,6 +52,22 @@ class ExperienceForm extends React.Component {
                 defaultValue={this.experience.headerDescription}
                 placeholder="Header Description"
                 onChange={(event) => this.experienceProxy.headerDescription = event.target.value}
+                />,
+                <ImageSelector
+                key="headerIcon"
+                checkable
+                urlPlaceholder="URL"
+                label="Header Icon"
+                onSourceChanged={(source) => {
+                    if (source) {
+                        const image = new Image();
+                        image.src = source;
+                        this.experienceProxy.headerIcon = image;
+                    }
+                    else {
+                        this.experienceProxy.headerIcon = null;
+                    }
+                }}
                 />,
                 <div 
                 className="ExperienceForm-HeaderLink"

@@ -1,0 +1,11 @@
+.FileSelector {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    color: white;
+    cursor: pointer;
+}
+
+.FileSelector:hover {
+    color: green;
+}
