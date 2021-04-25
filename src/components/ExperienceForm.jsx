@@ -9,7 +9,6 @@ import DateSelector from "./DateSelector";
 import CheckBox from "./CheckBox";
 import TagsForm from "./TagsForm";
 import ImageSelector from "./ImageSelector";
-import FileSelector from "./FileSelector";
 
 class ExperienceForm extends React.Component {
     static defaultProps = {
@@ -56,18 +55,8 @@ class ExperienceForm extends React.Component {
                 <ImageSelector
                 key="headerIcon"
                 checkable
-                urlPlaceholder="URL"
                 label="Header Icon"
-                onSourceChanged={(source) => {
-                    if (source) {
-                        const image = new Image();
-                        image.src = source;
-                        this.experienceProxy.headerIcon = image;
-                    }
-                    else {
-                        this.experienceProxy.headerIcon = null;
-                    }
-                }}
+                onSourceChanged={(source) => {this.experienceProxy.headerIcon = source;}}
                 />,
                 <div 
                 className="ExperienceForm-HeaderLink"

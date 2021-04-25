@@ -1,11 +1,13 @@
 class Resume {
     constructor(
         name, 
+        photo = "",
         brief = "", 
         experienceSuperlist = [], 
         informationSuperlist = []) 
     {
         this.name = name;
+        this.photo = photo;
         this.brief = brief;
         this.experienceSuperlist = experienceSuperlist;
         this.informationSuperlist = informationSuperlist;
@@ -25,7 +27,7 @@ class Experience {
         description, 
         startDate = null,
         endDate = null,
-        headerIcon = null, 
+        headerIcon = "", 
         headerDescription = "", 
         headerLink = "", 
         tags = []) 

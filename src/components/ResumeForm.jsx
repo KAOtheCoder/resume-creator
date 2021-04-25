@@ -7,6 +7,7 @@ import ExpandingTextArea from "./ExpandingTextArea";
 import InformationSuperlistForm from "./InformationSuperlistForm";
 import ExperienceSuperlistForm from "./ExperienceSuperlistForm";
 import createChangeProxy from "../ChangeProxy";
+import ImageSelector from "./ImageSelector";
 
 class ResumeForm extends React.Component {
     static defaultProps = {
@@ -33,6 +34,11 @@ class ResumeForm extends React.Component {
                 <UnderlinedInput 
                 placeholder="Name"
                 onChange={(event) => this.resumeProxy.name = event.target.value}
+                />
+                <ImageSelector
+                checkable
+                label="Photo"
+                onSourceChanged={(source) => this.resumeProxy.photo = source}
                 />
                 <ExpandingTextArea
                 placeholder="Brief"

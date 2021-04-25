@@ -1,6 +1,5 @@
 import React from "react";
 import CheckBox from "./CheckBox";
-import UnderlinedInput from "./UnderlinedInput";
 import "./ImageSelector.css";
 import FileSelector from "./FileSelector";
 
@@ -71,7 +70,7 @@ class ImageSelector extends React.Component {
 
     setSource(source) {
         if (this.state.source !== source)
-            this.setState({source: source}, this.props.onSourceChanged(source));
+            this.setState({source: source}, () => this.props.onSourceChanged(source));
     }
 }
 

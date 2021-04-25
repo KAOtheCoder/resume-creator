@@ -5,7 +5,7 @@ class ResumeCreator {
         const MARGINS = 20;
         const SIDEBAR_WIDTH_RATIO = 0.3;
 
-        this.doc = new jsPDF("portrait", "pt", "a4");
+        this.doc = new jsPDF("portrait", "pt", "a4", true);
 
         this.sideBarWidth = this.doc.internal.pageSize.getWidth() * SIDEBAR_WIDTH_RATIO;
 
@@ -39,6 +39,8 @@ class ResumeCreator {
     printSideBar(resume) {
         const NAME_FONT_SIZE = 20;
         const SPACING = 10;
+        const WIDTH = this.sideBarWidth - 2 * this.margins;
+        const PHOTO_HEIGHT = WIDTH * 1.6
 
         let y = this.margins;
 
@@ -46,7 +48,13 @@ class ResumeCreator {
         this.doc.setFontSize(NAME_FONT_SIZE);
         this.doc.setFont(this.doc.getFont().fontName, "bold");
         y += this.printText(this.margins, this.margins, this.sideBarWidth, resume.name) + SPACING;
-        this.printInformationSuperlist(this.margins, y, this.sideBarWidth - 2 * this.margins, resume.informationSuperlist);
+        
+        if (resume.photo) {
+            this.doc.addImage(resume.photo, "jpg", this.margins, y, WIDTH, PHOTO_HEIGHT, undefined, "FAST");
+            y += PHOTO_HEIGHT + SPACING;
+        }
+
+        this.printInformationSuperlist(this.margins, y, WIDTH, resume.informationSuperlist);
     }
 
     nextPage() {
@@ -157,7 +165,7 @@ class ResumeCreator {
         let headerX = experienceX;
         let headerWidth = experienceWidth;
 
-        if (experience.headerIcon !== null) {
+        if (experience.headerIcon) {
             const ICON_SIZE = HEADER_FONT_SIZE + HEADER_DESCRIPTION_FONT_SIZE + SPACING1;
             
             if (visible)
