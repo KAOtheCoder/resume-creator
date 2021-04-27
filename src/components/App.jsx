@@ -5,17 +5,62 @@ import ResumeForm from "./ResumeForm";
 import './App.css';
 
 class App extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.resumeCreator = new ResumeCreator();
+        this.state = {preview: undefined};
+        this.previewRef = React.createRef();
+        this.updateTimer = 0;
+    }
+
     render() {
         return (
             <div className="App">
-                <ResumeForm/>
-                <button
-                onClick={() => this.createDefault() }
-                >
-                    Create default pdf
-                </button>
+                <iframe
+                ref={this.previewRef}
+                className="App-Preview"
+                title="Preview"
+                src={this.state.preview}
+                onLoad={() => {
+                    const preview = this.previewRef.current;
+                    if (preview)
+                        this.fadeIn(preview);
+                }}
+                />
+                <ResumeForm
+                onResumeChange={(resume) => {
+                    if (this.updateTimer > 0)
+                        clearTimeout(this.updateTimer);
+                    
+                    this.updateTimer = setTimeout(() => {this.updatePreview(resume);}, 2000);
+                }}
+                />
             </div>
         );
+    }
+
+    async updatePreview(resume) {
+        this.updateTimer = 0;
+
+        const preview = this.previewRef.current;
+
+        if (preview)
+            this.fadeOut(preview);
+
+        const doc = await this.resumeCreator.createResume(resume);
+        const src = doc.output("datauristring");
+        this.setState({preview:src});
+    }
+
+    fadeIn(element) {
+        element.classList.remove("App-FadeOut");
+        element.classList.add("App-FadeIn");
+    }
+
+    fadeOut(element) {
+        element.classList.remove("App-FadeIn");
+        element.classList.add("App-FadeOut");
     }
 
     createDefault() {

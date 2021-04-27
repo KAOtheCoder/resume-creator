@@ -12,6 +12,7 @@
     outline: none;
     border-color: white;
     border-radius: 4px;
+    min-height: 50px;
 }
 
 .ExpandingTextArea:focus {

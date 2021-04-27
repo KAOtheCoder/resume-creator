@@ -1,7 +1,7 @@
 import jsPDF from "jspdf";
 
 class ResumeCreator {
-    createResume(resume) {
+    async createResume(resume) {
         const MARGINS = 20;
         const SIDEBAR_WIDTH_RATIO = 0.3;
 
@@ -11,13 +11,13 @@ class ResumeCreator {
 
         this.margins = MARGINS;
         this.printPageLayout();
-        this.printSideBar(resume);
-        this.printMain(resume);
+        await this.printSideBar(resume);
+        await this.printMain(resume);
 
         return this.doc;
     }
 
-    printMain(resume) {
+    async printMain(resume) {
         const BRIEF_FONT_SIZE = 10;
         const SPACING = 10;
 
@@ -33,14 +33,13 @@ class ResumeCreator {
             y += this.printText(x, this.margins, width, resume.brief) + SPACING;
         }
         
-        this.printExperienceSuperlist(x, y, width, resume.experienceSuperlist);
+        await this.printExperienceSuperlist(x, y, width, resume.experienceSuperlist);
     }
 
-    printSideBar(resume) {
+    async printSideBar(resume) {
         const NAME_FONT_SIZE = 20;
         const SPACING = 10;
         const WIDTH = this.sideBarWidth - 2 * this.margins;
-        const PHOTO_HEIGHT = WIDTH * 1.6
 
         let y = this.margins;
 
@@ -49,10 +48,8 @@ class ResumeCreator {
         this.doc.setFont(this.doc.getFont().fontName, "bold");
         y += this.printText(this.margins, this.margins, this.sideBarWidth, resume.name) + SPACING;
         
-        if (resume.photo) {
-            this.doc.addImage(resume.photo, "jpg", this.margins, y, WIDTH, PHOTO_HEIGHT, undefined, "FAST");
-            y += PHOTO_HEIGHT + SPACING;
-        }
+        if (resume.photo)
+            y += SPACING + await this.printImage(this.margins, y, WIDTH, resume.photo);
 
         this.printInformationSuperlist(this.margins, y, WIDTH, resume.informationSuperlist);
     }
@@ -91,6 +88,39 @@ class ResumeCreator {
         }
  
         return height;
+    }
+
+    async printImage(x, y, width, image64, visible = true) {
+        if (!image64)
+            return 0;
+
+        const PX_TO_PT = 72 / 96;
+        const SIZE_COEFFICIENT = PX_TO_PT * 2;
+        
+        const loadImage = (src) => {
+            return new Promise((resolve, reject) => {
+                const image = new Image();
+                image.onload = () => {resolve(image)};
+                image.src = src;
+            });
+        }
+
+        const image = await loadImage(image64);
+        const scaledHeight = image.naturalHeight / (image.naturalWidth / width);
+
+        if (visible) {
+            const canvas = document.createElement("canvas");
+            canvas.width = width * SIZE_COEFFICIENT;
+            canvas.height = scaledHeight * SIZE_COEFFICIENT;
+            const context = canvas.getContext("2d");
+            context.fillStyle = "transparent";
+            context.fillRect(0, 0, canvas.width, canvas.height);
+            context.drawImage(image, 0, 0, canvas.width, canvas.height);
+            
+            this.doc.addImage(canvas.toDataURL(), x, y, width, scaledHeight);
+        }
+        
+        return scaledHeight;
     }
 
     printName(x, y, width, name, visible) {
@@ -136,7 +166,7 @@ class ResumeCreator {
         return height + tagRectHeight;
     }
 
-    printExperience(x, y, width, experience, visible = true) {
+    async printExperience(x, y, width, experience, visible = true) {
         const SPACING1 = 3;
         const SPACING2 = 5;
         const DATE_WIDTH = 50;
@@ -169,7 +199,8 @@ class ResumeCreator {
             const ICON_SIZE = HEADER_FONT_SIZE + HEADER_DESCRIPTION_FONT_SIZE + SPACING1;
             
             if (visible)
-                this.doc.addImage(experience.headerIcon, "", experienceX, y, ICON_SIZE, ICON_SIZE);
+                await this.printImage(experienceX, y, ICON_SIZE, experience.headerIcon, visible);
+                //this.doc.addImage(experience.headerIcon, "", experienceX, y, ICON_SIZE, ICON_SIZE);
             
             headerX += ICON_SIZE + SPACING1;
             headerWidth -= ICON_SIZE + SPACING1;
@@ -204,7 +235,7 @@ class ResumeCreator {
         return height;
     }
 
-    printExperienceList(x, y, width, experienceList, visible = true) {
+    async printExperienceList(x, y, width, experienceList, visible = true) {
         const SPACING = 10;
 
         if (experienceList.experiences.length === 0)
@@ -213,7 +244,7 @@ class ResumeCreator {
         let currentY = y;
         let height = this.printHeader(0, 0, width, experienceList.header, false) 
             + SPACING
-            + this.printExperience(0, 0, width, experienceList.experiences[0], false);
+            + await this.printExperience(0, 0, width, experienceList.experiences[0], false);
 
         if (y + height > this.doc.internal.pageSize.getHeight() - this.margins) {
             this.nextPage();
@@ -221,7 +252,7 @@ class ResumeCreator {
         }
 
         currentY += this.printHeader(x, currentY, width, experienceList.header, visible) + SPACING;
-        currentY += this.printExperience(x, currentY, width, experienceList.experiences[0], visible);
+        currentY += await this.printExperience(x, currentY, width, experienceList.experiences[0], visible);
         
         for (let i = 1; i < experienceList.experiences.length; ++i) {
             currentY += SPACING;
@@ -232,7 +263,7 @@ class ResumeCreator {
                 currentY = this.margins;
             }
 
-            const experienceHeight = this.printExperience(0, 0, width, experienceList.experiences[i], false);
+            const experienceHeight = await this.printExperience(0, 0, width, experienceList.experiences[i], false);
             height += experienceHeight;
 
             if (currentY + experienceHeight > this.doc.internal.pageSize.getHeight() - this.margins) {
@@ -240,7 +271,7 @@ class ResumeCreator {
                 currentY = this.margins;
             }
 
-            currentY += this.printExperience(x, currentY, width, experienceList.experiences[i], visible);
+            currentY += await this.printExperience(x, currentY, width, experienceList.experiences[i], visible);
         }
 
         return { height: height, y: currentY };
@@ -276,7 +307,7 @@ class ResumeCreator {
         return height;
     }
 
-    printExperienceSuperlist(x, y, width, experienceSuperlist, visible = true) {
+    async printExperienceSuperlist(x, y, width, experienceSuperlist, visible = true) {
         const SPACING = 10;
 
         if (experienceSuperlist.length === 0)
@@ -286,7 +317,7 @@ class ResumeCreator {
         let height = -SPACING;
 
         for (let i = 0; i < experienceSuperlist.length; ++i) {
-            const size = this.printExperienceList(x, currentY + SPACING, width, experienceSuperlist[i], visible);
+            const size = await this.printExperienceList(x, currentY + SPACING, width, experienceSuperlist[i], visible);
             currentY = size.y;
             height += SPACING + size.height;
         }

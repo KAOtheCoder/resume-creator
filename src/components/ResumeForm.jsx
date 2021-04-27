@@ -25,7 +25,7 @@ class ResumeForm extends React.Component {
             this.resume = this.props.resume;
         }
 
-        this.resumeProxy = createChangeProxy(this.resume, this.props.onResumeChange(this.resume));
+        this.resumeProxy = createChangeProxy(this.resume, () => this.props.onResumeChange(this.resume));
     }
 
     render() {
@@ -33,12 +33,12 @@ class ResumeForm extends React.Component {
             <div className="ResumeForm">
                 <UnderlinedInput 
                 placeholder="Name"
-                onChange={(event) => this.resumeProxy.name = event.target.value}
+                onChange={(event) => {this.resumeProxy.name = event.target.value}}
                 />
                 <ImageSelector
                 checkable
                 label="Photo"
-                onSourceChanged={(source) => this.resumeProxy.photo = source}
+                onSourceChanged={(source) => {this.resumeProxy.photo = source}}
                 />
                 <ExpandingTextArea
                 placeholder="Brief"
@@ -46,11 +46,11 @@ class ResumeForm extends React.Component {
                 />
                 <InformationSuperlistForm
                 informationSuperlist={this.resume.informationSuperlist}
-                onInformationSuperlistChange={(informationSuperlist) => this.resumeProxy.informationSuperlist = informationSuperlist}
+                onInformationSuperlistChange={(informationSuperlist) => this.props.onResumeChange(this.resume)}
                 />
                 <ExperienceSuperlistForm
                 experienceSuperlist={this.resume.experienceSuperlist}
-                onExperienceSuperlistChange={(experienceSuperlist) => this.resumeProxy.experienceSuperlist = experienceSuperlist}
+                onExperienceSuperlistChange={(experienceSuperlist) => this.props.onResumeChange(this.resume)}
                 />
                 <button
                 onClick={() => this.createResume() }
@@ -61,9 +61,9 @@ class ResumeForm extends React.Component {
         );
     }
 
-    createResume() {
+    async createResume() {
         const resumeCreator = new ResumeCreator();
-        const doc = resumeCreator.createResume(this.resume);
+        const doc = await resumeCreator.createResume(this.resume);
         doc.output("dataurlnewwindow");
     }
 }

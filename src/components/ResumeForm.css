@@ -1,11 +1,10 @@
 .ResumeForm {
-    box-sizing: border-box;
-    width: 60%;
     padding: 8px;
-    margin: auto;
     background-color: black;
     display: flex;
     flex-direction: column;
     gap: 8px;
     color: white;
+    flex: 1;
+    overflow-y: auto;
 }
