@@ -1,17 +1,22 @@
 .Slider {
     position: relative;
-    border-color: white;
-    border: none
+    border-color: var(--white);
+    border: none;
+    --background-color: rgba(255, 255, 255, 0.5);
+    --thumb-visibility: hidden;
 }
 
 .Slider:hover {
-    border-color: green;
+    --background-color: var(--focus-white);
+    border-color: var(--focus-color);
+    color: var(--focus-white);
+    --thumb-visibility: visible;
 }
 
 .Slider-Background {
     pointer-events: none;
     position: absolute;
-    background-color: white;
+    background-color: var(--background-color);
     width: calc(100% - 12px);
     height: 8px;
     margin: auto;
@@ -26,11 +31,12 @@
 }
 
 .Slider-Fill {
+    --fill-width: 50;
+    width: calc(var(--fill-width) * 1%);
     position: relative;
     height: 100%;
-    background-color: green;
-    border-top-left-radius: inherit;
-    border-bottom-left-radius: inherit;
+    background-color: hsl(calc(var(--fill-width) * 1.2), 100%, 50%);
+    border-radius: inherit;
     border-color: inherit;
 }
 
@@ -40,11 +46,12 @@
     height: 12px;
     border-radius: 6px;
     border-width: 1px;
-    border-color: inherit;
+    border-color: var(--focus-color);
     border-style: solid;
     right: -6px;
     top: -3px;
-    background-color: green;
+    background-color: var(--focus-color);
+    visibility: var(--thumb-visibility);
 }
 
 .Slider-Input {

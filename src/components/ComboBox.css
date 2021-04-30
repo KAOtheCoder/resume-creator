@@ -1,24 +1,18 @@
 .ComboBox {
-    border-color: white;
-    border-style: solid;
-    border-width: 1px;
+    border: none;
     border-radius: 4px;
     outline: none;
-    background-color: white;
+    background-color: var(--white);
     color: black;
 }
 
 .ComboBox:hover, .ComboBox:focus {
-    background-color: green;
-    color: white;
-}
-
-.ComboBox:hover {
-    border-color: green;
+    background-color: var(--focus-color);
+    color: var(--focus-white);
 }
 
 .ComboBox-Option {
-    background-color: white;
+    background-color: var(--white);
     color: black;
     border-radius: 4px;
 }

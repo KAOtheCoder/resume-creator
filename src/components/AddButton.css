@@ -5,25 +5,25 @@
     padding: 0px;
     border-radius: 6px;
     color: black;
-    border-color: white;
+    border-color: var(--white);;
     border-width: 1px;
     outline: none;
-    background-color: white;
+    background-color: var(--white);;
     border-style: solid;
     overflow: hidden;
     cursor: pointer;
 }
 
 .AddButton:hover {
-    background-color: green;
-    border-color: green;
-    color: white;
+    background-color: var(--focus-color);
+    border-color: var(--focus-color);
+    color: var(--focus-white);
 }
 
 .AddButton-Icon {
     vertical-align: middle;
-    background-color: green;
-    color: white;
+    background-color: var(--green);
+    color: var(--white);
 }
 
 .AddButton-Label {

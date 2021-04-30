@@ -7,14 +7,15 @@
     line-height: 20px;
     resize: none;
     font-family: Arial;
-    color: white;
+    color: var(--white);
     overflow: auto;
     outline: none;
-    border-color: white;
+    border-color: var(--white);
     border-radius: 4px;
     min-height: 50px;
 }
 
-.ExpandingTextArea:focus {
-    border-color: green;
+.ExpandingTextArea:focus, .ExpandingTextArea:hover {
+    border-color: var(--focus-color);
+    color: var(--focus-white);
 }

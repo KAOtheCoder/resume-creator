@@ -5,13 +5,17 @@
     padding: 0px;
     background: none;
     border: none;
-    border-color: white;
+    border-color: var(--white);
     outline: none;
     overflow: hidden;
+    color: var(--white);
 }
 
 .CheckBox:hover {
-    border-color: green;
+    --label-color: var(--focus-color);
+    border-color: var(--focus-color);
+    color: var(--focus-white);
+    cursor: pointer;
 }
 
 .CheckBox-Icon {
@@ -28,11 +32,10 @@
 }
 
 .CheckBox-Icon-Checked {
-    color: white;
-    background: green;
+    background: var(--green);
 }
 
 .CheckBox-Label {
     padding: 4px;
-    color: white;
+    color: var(--label-color);
 }

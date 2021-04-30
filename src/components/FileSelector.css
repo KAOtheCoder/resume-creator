@@ -2,10 +2,10 @@
     display: flex;
     flex-direction: row;
     gap: 8px;
-    color: white;
+    color: var(--white);
     cursor: pointer;
 }
 
 .FileSelector:hover {
-    color: green;
+    color: var(--focus-color);
 }

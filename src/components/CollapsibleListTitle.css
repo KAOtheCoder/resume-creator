@@ -13,10 +13,14 @@
     justify-content: center;
 }
 
-.CollapsibleListTitle-MoveButton {
+.CollapsibleListTitle-MoveIcon {
     overflow: hidden;
     height: 13.5px;
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.CollapsibleListTitle-DeleteIcon:hover {
+    color: var(--red);
 }

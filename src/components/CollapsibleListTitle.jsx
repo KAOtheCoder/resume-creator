@@ -22,7 +22,7 @@ class CollapsibleListTitle extends React.Component {
         if (this.props.movableUp)
             moveButtons.push(
                 <i
-                className="material-icons CollapsibleList-Button CollapsibleListTitle-MoveButton"
+                className="material-icons CollapsibleList-Icon CollapsibleListTitle-Moveıcon"
                 key="moveUp"
                 onClick={this.props.onMoveUp}
                 >
@@ -33,7 +33,7 @@ class CollapsibleListTitle extends React.Component {
         if (this.props.movableDown)
             moveButtons.push(
                 <i
-                className="material-icons CollapsibleList-Button CollapsibleListTitle-MoveButton"
+                className="material-icons CollapsibleList-Icon CollapsibleListTitle-Moveıcon"
                 key="moveDown"
                 onClick={this.props.onMoveDown}
                 >
@@ -54,7 +54,7 @@ class CollapsibleListTitle extends React.Component {
         if (this.props.deletable)
             titleButtons.push(
                 <i
-                className="material-icons CollapsibleList-Button"
+                className="material-icons CollapsibleList-Icon CollapsibleListTitle-DeleteIcon"
                 key="delete"
                 onClick={this.props.onDelete}
                 >

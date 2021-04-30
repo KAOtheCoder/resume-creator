@@ -19,7 +19,7 @@ class Slider extends React.Component {
                 <div className="Slider-Background">
                     <div 
                     className="Slider-Fill" 
-                    style={{width: fillWidth + "%"}}
+                    style={{"--fill-width": fillWidth}}
                     >
                         <div className="Slider-Thumb" />
                     </div>

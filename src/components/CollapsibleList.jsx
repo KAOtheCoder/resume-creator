@@ -32,63 +32,13 @@ class CollapsibleList extends React.Component {
             );
     }
 
-    getTitleButtons() {
-        const titleButtons = [];
-        const moveButtons = [];
-
-        if (this.props.movableUp)
-            moveButtons.push(
-                <i
-                className="material-icons CollapsibleList-Button CollapsibleList-MoveButton"
-                key="moveUp"
-                onClick={this.props.onMoveUp}
-                >
-                    arrow_drop_up
-                </i>
-            );
-
-        if (this.props.movableDown)
-            moveButtons.push(
-                <i
-                className="material-icons CollapsibleList-Button CollapsibleList-MoveButton"
-                key="moveDown"
-                onClick={this.props.onMoveDown}
-                >
-                    arrow_drop_down
-                </i>
-            );
-            
-        if (moveButtons.length > 0)
-            titleButtons.push(
-                <div 
-                key="move"
-                className="CollapsibleList-Move"
-                >
-                    {moveButtons}
-                </div>
-            );
-
-        if (this.props.deletable)
-            titleButtons.push(
-                <i
-                className="material-icons CollapsibleList-Button"
-                key="delete"
-                onClick={this.props.onDelete}
-                >
-                    delete
-                </i>
-            );
-
-        return titleButtons;
-    }
-
     render() {
         const expandIcon = this.state.expanded ? "expand_more" : "chevron_right";
 
         return (
             <div className="CollapsibleList">
                 <i 
-                className="material-icons CollapsibleList-Button"
+                className="material-icons CollapsibleList-Icon"
                 key="toggle"
                 onClick={() => this.toggleCollapse()}
                 >

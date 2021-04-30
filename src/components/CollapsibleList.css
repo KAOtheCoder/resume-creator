@@ -1,5 +1,5 @@
 .CollapsibleList {
-    background-color: rgba(127, 127, 127, 0.1);
+    background-color: rgba(100, 100, 100, 0.1);
     border-radius: 8px;
     padding: 8px;
     display: grid;
@@ -20,17 +20,17 @@
     gap: 8px;
 }
 
-.CollapsibleList-Button {
+.CollapsibleList-Icon {
     padding: 0px;
     background: none;
     border: none;
     outline: none;
-    color: white;
+    color: var(--white);
     cursor: pointer;
 }
 
-.CollapsibleList-Button:hover {
-    color: green;
+.CollapsibleList-Icon:hover {
+    color: var(--focus-color);
 }
 
 .CollapsibleList-AddButton {

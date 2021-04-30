@@ -5,13 +5,14 @@
     border-top: none;
     border-left: none;
     border-right: none;
-    border-color: white;
+    border-color: var(--white);
     border-width: 1px;
     outline: none;
     font-family: Arial, Helvetica, sans-serif;
-    color: white
+    color: var(--white);
 }
 
-.UnderlinedInput:focus {
-    border-color: green;
+.UnderlinedInput:focus, .UnderlinedInput:hover {
+    border-color: var(--focus-color);
+    color: var(--focus-white);
 }
