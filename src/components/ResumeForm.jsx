@@ -52,19 +52,8 @@ class ResumeForm extends React.Component {
                 experienceSuperlist={this.resume.experienceSuperlist}
                 onExperienceSuperlistChange={(experienceSuperlist) => this.props.onResumeChange(this.resume)}
                 />
-                <button
-                onClick={() => this.createResume() }
-                >
-                    Create Resume
-                </button>
             </div>
         );
-    }
-
-    async createResume() {
-        const resumeCreator = new ResumeCreator();
-        const doc = await resumeCreator.createResume(this.resume);
-        doc.output("dataurlnewwindow");
     }
 }
 

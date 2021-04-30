@@ -1,9 +1,9 @@
 :root {
-    --green: rgb(16, 160, 16);
+    --green: rgb(16, 162, 16);
     --red: rgb(255, 32, 32);
     --white: rgb(224, 224, 224);
     --focus-white: white;
-    --focus-color: rgb(41, 122, 211);
+    --focus-color: rgb(41, 122, 209);
 }
 
 .App {
