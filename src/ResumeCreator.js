@@ -194,13 +194,13 @@ class ResumeCreator {
 
         let headerX = experienceX;
         let headerWidth = experienceWidth;
+        let iconHeight = 0;
 
         if (experience.headerIcon) {
             const ICON_SIZE = HEADER_FONT_SIZE + HEADER_DESCRIPTION_FONT_SIZE + SPACING1;
             
             if (visible)
-                await this.printImage(experienceX, y, ICON_SIZE, experience.headerIcon, visible);
-                //this.doc.addImage(experience.headerIcon, "", experienceX, y, ICON_SIZE, ICON_SIZE);
+                iconHeight = await this.printImage(experienceX, y, ICON_SIZE, experience.headerIcon, visible);
             
             headerX += ICON_SIZE + SPACING1;
             headerWidth -= ICON_SIZE + SPACING1;
@@ -214,7 +214,7 @@ class ResumeCreator {
             height += SPACING1;
             this.doc.setFont(this.doc.getFont().fontName, "italic");
             this.doc.setFontSize(HEADER_DESCRIPTION_FONT_SIZE);
-            height +=  this.printText(headerX, y + height, headerWidth, experience.headerDescription, visible);
+            height += this.printText(headerX, y + height, headerWidth, experience.headerDescription, visible);
         }
 
         if (visible && experience.headerLink.length > 0)
@@ -227,6 +227,7 @@ class ResumeCreator {
             height += this.printTags(experienceX, y + height, experienceWidth, experience.tags, visible);
         }
         
+        height = Math.max(height, y + iconHeight);
         height += SPACING1;
         this.doc.setFont(this.doc.getFont().fontName, "normal");
         this.doc.setFontSize(DESCRIPTION_FONT_SIZE);
