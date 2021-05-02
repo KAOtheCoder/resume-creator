@@ -20,8 +20,8 @@ class ExperienceForm extends React.Component {
 
         this.experience = this.props.experience ?? new Experience("Experience", "");
         this.props.onExperienceChange(this.experience);
-
         this.experienceProxy = createChangeProxy(this.experience, () => this.props.onExperienceChange(this.experience));
+
         this.state = {
             endDateEnabled: this.experience.endDate ? true : false,
             endDate: this.experience.endDate
