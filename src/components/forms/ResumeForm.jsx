@@ -16,14 +16,8 @@ class ResumeForm extends React.Component {
     constructor(props) {
         super(props);
 
-        if (this.props.resume === undefined) {
-            this.resume = new Resume("");
-            this.props.onResumeChange(this.resume);
-        }
-        else {
-            this.resume = this.props.resume;
-        }
-
+        this.resume = this.props.resume ?? new Resume("");
+        this.props.onResumeChange(this.resume);
         this.resumeProxy = createChangeProxy(this.resume, () => this.props.onResumeChange(this.resume));
     }
 

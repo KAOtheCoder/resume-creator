@@ -174,10 +174,10 @@ class ResumeCreator {
 
         if (experience.startDate) {
             const dateToString = (date) => { return date.getFullYear() + "-" + (date.getMonth() + 1).toString().padStart(2, "0") }
-            let dateString = dateToString(experience.startDate);
+            let dateString = dateToString(new Date(experience.startDate));
 
             if (experience.endDate)
-                dateString += " -\n" + dateToString(experience.endDate);
+                dateString += " -\n" + dateToString(new Date(experience.endDate));
 
             this.printText(x, y, DATE_WIDTH, dateString, "left", visible);
         }

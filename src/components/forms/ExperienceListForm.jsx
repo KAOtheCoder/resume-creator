@@ -13,13 +13,8 @@ class ExperienceListForm extends React.Component {
     constructor(props) {
         super(props);
 
-        if (this.props.experienceList === undefined) {
-            this.experienceList = new ExperienceList("Experience List");
-            this.props.onExperienceListChange(this.experienceList);
-        }
-        else {
-            this.experienceList = this.props.experienceList;
-        }
+        this.experienceList = this.props.experienceList ?? new ExperienceList("Experience List");
+        this.props.onExperienceListChange(this.experienceList);
 
         this.experienceListProxy = createChangeProxy(this.experienceList, () => this.props.onExperienceListChange(this.experienceList));
         this.experiencesProxy = createChangeProxy(this.experienceList.experiences, () => this.props.onExperienceListChange(this.experienceList));

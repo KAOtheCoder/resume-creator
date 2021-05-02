@@ -18,17 +18,12 @@ class ExperienceForm extends React.Component {
     constructor(props) {
         super(props);
 
-        if (this.props.experience === undefined) {
-            this.experience = new Experience("Experience", "");
-            this.props.onExperienceChange(this.experience);
-        }
-        else {
-            this.experience = this.props.experience;
-        }
+        this.experience = this.props.experience ?? new Experience("Experience", "");
+        this.props.onExperienceChange(this.experience);
 
         this.experienceProxy = createChangeProxy(this.experience, () => this.props.onExperienceChange(this.experience));
         this.state = {
-            endDateEnabled: false,
+            endDateEnabled: this.experience.endDate ? true : false,
             endDate: this.experience.endDate
         };
     }
@@ -85,6 +80,7 @@ class ExperienceForm extends React.Component {
                     year
                     month
                     day={false}
+                    date={this.experience.startDate}
                     onDateChange={(date) => {
                         this.experience.startDate = date;
                         this.props.onExperienceChange(this.experience);
@@ -122,6 +118,7 @@ class ExperienceForm extends React.Component {
                 year
                 month
                 day={false}
+                date={this.experience.endDate}
                 onDateChange={(date) => {
                     this.experience.endDate = date;
                     this.props.onExperienceChange(this.experience);

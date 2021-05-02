@@ -13,14 +13,8 @@ class ExperienceSuperlist extends React.Component {
     constructor(props) {
         super(props);
 
-
-        if (this.props.experienceSuperlist === undefined) {
-            this.experienceSuperlist = [];
-            this.props.onExperienceSuperlistChange(this.experienceSuperlist);
-        }
-        else {
-            this.experienceSuperlist = this.props.experienceSuperlist;
-        }
+        this.experienceSuperlist = this.props.experienceSuperlist ?? [];
+        this.props.onExperienceSuperlistChange(this.experienceSuperlist);
 
         this.experienceSuperlistProxy = createChangeProxy(this.experienceSuperlist, () => this.props.onExperienceSuperlistChange(this.experienceSuperlist));
         this.keyGenerator = new KeyGenerator();

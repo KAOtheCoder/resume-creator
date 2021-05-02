@@ -16,13 +16,8 @@ class InformationForm extends React.Component {
     constructor(props) {
         super(props);
 
-        if (this.props.information === undefined) {
-            this.information = new Information("Key");
-            this.props.onInformationChange(this.information);
-        }
-        else {
-            this.information = this.props.information;
-        }
+        this.information = this.props.information ?? new Information("Key");
+        this.props.onInformationChange(this.information);
 
         this.informationProxy = createChangeProxy(this.information, () => this.props.onInformationChange(this.information));
 

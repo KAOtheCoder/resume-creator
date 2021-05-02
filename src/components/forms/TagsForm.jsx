@@ -12,13 +12,8 @@ class TagsForm extends React.Component {
     constructor(props) {
         super(props);
 
-        if (this.props.tags === undefined) {
-            this.tags = [];
-            this.tags.onTagsChange(this.tags);
-        }
-        else {
-            this.tags = this.props.tags;
-        }
+        this.tags = this.props.tags ?? [];
+        this.props.onTagsChange(this.tags);
 
         this.tagsProxy = createChangeProxy(this.tags, () => this.props.onTagsChange(this.tags));
         this.keyGenerator = new KeyGenerator();

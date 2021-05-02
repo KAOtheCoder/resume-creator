@@ -13,13 +13,8 @@ class InformationSuperlistForm extends React.Component {
     constructor(props) {
         super(props);
 
-        if (this.props.informationSuperlist === undefined) {
-            this.informationSuperlist = [];
-            this.props.onInformationSuperlistChange(this.informationSuperlist);
-        }
-        else {
-            this.informationSuperlist = this.props.informationSuperlist;
-        }
+        this.informationSuperlist = this.props.informationSuperlist ?? [];
+        this.props.onInformationSuperlistChange(this.informationSuperlist);
 
         this.informationSuperlistProxy = createChangeProxy(this.informationSuperlist, () => this.props.onInformationSuperlistChange(this.informationSuperlist));
         this.keyGenerator = new KeyGenerator();

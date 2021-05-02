@@ -13,13 +13,8 @@ class InformationListForm extends React.Component {
     constructor(props) {
         super(props);
 
-        if (this.props.informationList === undefined) {
-            this.informationList = new InformationList("Information List");
-            this.props.onInformationListChange(this.informationList);
-        }
-        else {
-            this.informationList = this.props.informationList;
-        }
+        this.informationList = this.props.informationList ?? new InformationList("Information List");
+        this.props.onInformationListChange(this.informationList);
 
         this.informationListProxy = createChangeProxy(this.informationList, () => this.props.onInformationListChange(this.informationList));
         this.informationsProxy = createChangeProxy(this.informationList.informations, () => this.props.onInformationListChange(this.informationList));

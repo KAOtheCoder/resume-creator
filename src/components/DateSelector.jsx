@@ -13,13 +13,8 @@ class DateSelector extends React.Component {
     constructor(props) {
         super(props);
 
-        if (this.props.date === undefined) {
-            this.date = new Date();
-            this.props.onDateChange(this.date);
-        }
-        else {
-            this.date = this.props.date;
-        }
+        this.date = this.props.date ? new Date(this.props.date) : new Date();
+        this.props.onDateChange(this.date);
     }
 
     render() {

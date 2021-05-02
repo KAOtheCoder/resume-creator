@@ -12,6 +12,12 @@ class App extends React.Component {
         this.state = {preview: undefined};
         this.previewRef = React.createRef();
         this.updateTimer = 0;
+        
+        const resumeString = localStorage.getItem("Resume");
+        if (resumeString) {
+            this.resume = JSON.parse(resumeString);
+            this.updatePreview(this.resume);
+        }
     }
 
     render() {
@@ -29,6 +35,7 @@ class App extends React.Component {
                 }}
                 />
                 <ResumeForm
+                resume={this.resume}
                 onResumeChange={(resume) => {
                     if (this.updateTimer > 0)
                         clearTimeout(this.updateTimer);
@@ -51,6 +58,7 @@ class App extends React.Component {
         const doc = await this.resumeCreator.createResume(resume);
         const src = doc.output("datauristring");
         this.setState({preview:src});
+        localStorage.setItem("Resume", JSON.stringify(resume));
     }
 
     fadeIn(element) {
