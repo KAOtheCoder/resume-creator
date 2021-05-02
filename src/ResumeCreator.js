@@ -46,7 +46,7 @@ class ResumeCreator {
         this.doc.setPage(1);
         this.doc.setFontSize(NAME_FONT_SIZE);
         this.doc.setFont(this.doc.getFont().fontName, "bold");
-        y += this.printText(this.margins, this.margins, this.sideBarWidth, resume.name) + SPACING;
+        y += this.printText(this.margins, this.margins, WIDTH, resume.name, "left") + SPACING;
         
         if (resume.photo)
             y += SPACING + await this.printImage(this.margins, y, WIDTH, resume.photo);
@@ -74,7 +74,7 @@ class ResumeCreator {
         this.doc.rect(0, 0, this.sideBarWidth, this.doc.internal.pageSize.getHeight(), "F");
     }
 
-    printText(x, y, width, text, visible = true) {
+    printText(x, y, width, text, align = "justify", visible = true) {
         if (text.length === 0)
             return 0;
 
@@ -83,7 +83,7 @@ class ResumeCreator {
 
         for (let i = 0; i < paragraphs.length; ++i) {
             const lines = this.doc.splitTextToSize(paragraphs[i], width);
-            this.doc.text(lines, x, y + height, { align: "justify", baseline: "top", maxWidth: width, renderingMode: visible ? "fill" : "invisible" });
+            this.doc.text(lines, x, y + height, { align: align, baseline: "top", maxWidth: width, renderingMode: visible ? "fill" : "invisible" });
             height += lines.length * this.doc.getLineHeight();
         }
  
@@ -122,13 +122,6 @@ class ResumeCreator {
         
         return scaledHeight;
     }
-
-    printName(x, y, width, name, visible) {
-        const FONT_SIZE = 15;
-
-        this.doc.setFontSize(FONT_SIZE);
-        this.printText(x, y, width, name, visible);
-    } 
 
     printTags(x, y, width, tags, visible = true) {
         const MARGIN = 3;
@@ -186,7 +179,7 @@ class ResumeCreator {
             if (experience.endDate)
                 dateString += " -\n" + dateToString(experience.endDate);
 
-            this.printText(x, y, DATE_WIDTH, dateString, visible);
+            this.printText(x, y, DATE_WIDTH, dateString, "left", visible);
         }
         
         const experienceX = x + DATE_WIDTH + SPACING2;
@@ -208,13 +201,13 @@ class ResumeCreator {
 
         this.doc.setFont(this.doc.getFont().fontName, "bold");
         this.doc.setFontSize(HEADER_FONT_SIZE);
-        let height = this.printText(headerX, y, headerWidth, experience.header, visible);
+        let height = this.printText(headerX, y, headerWidth, experience.header, "left", visible);
 
         if (experience.headerDescription.length > 0) {
             height += SPACING1;
             this.doc.setFont(this.doc.getFont().fontName, "italic");
             this.doc.setFontSize(HEADER_DESCRIPTION_FONT_SIZE);
-            height += this.printText(headerX, y + height, headerWidth, experience.headerDescription, visible);
+            height += this.printText(headerX, y + height, headerWidth, experience.headerDescription, "left", visible);
         }
 
         if (visible && experience.headerLink.length > 0)
@@ -227,11 +220,11 @@ class ResumeCreator {
             height += this.printTags(experienceX, y + height, experienceWidth, experience.tags, visible);
         }
         
-        height = Math.max(height, y + iconHeight);
+        height = Math.max(height, iconHeight);
         height += SPACING1;
         this.doc.setFont(this.doc.getFont().fontName, "normal");
         this.doc.setFontSize(DESCRIPTION_FONT_SIZE);
-        height += this.printText(experienceX, y + height, experienceWidth, experience.description, visible);
+        height += this.printText(experienceX, y + height, experienceWidth, experience.description, "justify", visible);
         
         return height;
     }
@@ -289,7 +282,7 @@ class ResumeCreator {
         this.doc.setFontSize(HEADER_FONT_SIZE);
         this.doc.setTextColor("white");
 
-        const height = this.printText(x, y, width - 2 * LEFT_RIGHT_MARGIN, header, false) + TOP_MARGIN;
+        const height = this.printText(x, y, width - 2 * LEFT_RIGHT_MARGIN, header, "left", false) + TOP_MARGIN;
         let textWidth = Math.min(this.doc.getTextWidth(header), width - height - 2 * LEFT_RIGHT_MARGIN);
 
         if (visible) {
@@ -300,7 +293,7 @@ class ResumeCreator {
             this.doc.lines([[0, 0], [halfHeight, -halfHeight], [headerWidth, 0], [halfHeight, halfHeight], [-halfHeight, halfHeight], [-headerWidth, 0]], x, y + halfHeight, [1, 1], "F", true);
             this.doc.setLineWidth(2);
             this.doc.line(x + headerWidth, y + halfHeight, x + width, y + halfHeight);
-            this.printText(x + halfHeight + LEFT_RIGHT_MARGIN, y + TOP_MARGIN, width, header);
+            this.printText(x + halfHeight + LEFT_RIGHT_MARGIN, y + TOP_MARGIN, width, header, "left");
         }
         
         this.doc.setTextColor(textColor);
@@ -334,7 +327,7 @@ class ResumeCreator {
         this.doc.setFont(this.doc.getFont().fontName, "bold");
         this.doc.setFontSize(KEY_FONT_SIZE);
 
-        let height = this.printText(x, y, width, information.key, visible);
+        let height = this.printText(x, y, width, information.key, "left", visible);
         
         if (information.rating >= 0) {
             height += SPACING;
@@ -352,7 +345,7 @@ class ResumeCreator {
             height += SPACING;
 
             this.doc.setFont(this.doc.getFont().fontName, "normal");
-            height += this.printText(x, y + height, width, information.value, visible);
+            height += this.printText(x, y + height, width, information.value, "left", visible);
         }
 
         return height;
