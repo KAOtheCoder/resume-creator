@@ -1,6 +1,5 @@
 import React from "react";
 import { Resume } from "../Resume";
-import ResumeCreator from "../ResumeCreator";
 import "./ResumeForm.css";
 import UnderlinedInput from "./UnderlinedInput";
 import ExpandingTextArea from "./ExpandingTextArea";
