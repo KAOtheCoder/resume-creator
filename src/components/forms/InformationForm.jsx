@@ -1,12 +1,12 @@
 import React from "react";
-import CollapsibleList from "./CollapsibleList";
-import UnderlinedInput from "./UnderlinedInput";
-import { Information } from "../Resume";
-import CheckBox from "./CheckBox";
+import CollapsibleList from "../CollapsibleList";
+import UnderlinedInput from "../UnderlinedInput";
+import { Information } from "../../Resume";
+import CheckBox from "../CheckBox";
 import "./InformationForm.css";
-import Slider from "./Slider";
-import SpinBox from "./SpinBox";
-import createChangeProxy from "../ChangeProxy";
+import Slider from "../Slider";
+import SpinBox from "../SpinBox";
+import createChangeProxy from "../../ChangeProxy";
 
 class InformationForm extends React.Component {
     static defaultProps = {

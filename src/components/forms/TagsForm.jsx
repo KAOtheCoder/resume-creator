@@ -1,8 +1,8 @@
 import React from "react";
-import createChangeProxy from "../ChangeProxy";
-import CollapsibleList from "./CollapsibleList";
-import KeyGenerator from "../KeyGenerator";
-import CollapsibleListTitle from "./CollapsibleListTitle";
+import createChangeProxy from "../../ChangeProxy";
+import CollapsibleList from "../CollapsibleList";
+import KeyGenerator from "../../KeyGenerator";
+import CollapsibleListTitle from "../CollapsibleListTitle";
 
 class TagsForm extends React.Component {
     static defaultProps = {

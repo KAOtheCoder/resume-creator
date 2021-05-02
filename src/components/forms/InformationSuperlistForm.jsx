@@ -1,9 +1,9 @@
 import React from "react";
-import { InformationList } from "../Resume";
-import CollapsibleList from "./CollapsibleList";
+import { InformationList } from "../../Resume";
+import CollapsibleList from "../CollapsibleList";
 import InformationListForm from "./InformationListForm";
-import KeyGenerator from "../KeyGenerator.js";
-import createChangeProxy from "../ChangeProxy";
+import KeyGenerator from "../../KeyGenerator.js";
+import createChangeProxy from "../../ChangeProxy";
 
 class InformationSuperlistForm extends React.Component {
     static defaultProps = {

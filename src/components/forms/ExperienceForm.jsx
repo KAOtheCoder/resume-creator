@@ -1,14 +1,14 @@
 import React from "react";
-import CollapsibleList from "./CollapsibleList";
-import UnderlinedInput from "./UnderlinedInput";
-import { Experience } from "../Resume";
-import ExpandingTextArea from "./ExpandingTextArea";
-import createChangeProxy from "../ChangeProxy";
+import CollapsibleList from "../CollapsibleList";
+import UnderlinedInput from "../UnderlinedInput";
+import { Experience } from "../../Resume";
+import ExpandingTextArea from "../ExpandingTextArea";
+import createChangeProxy from "../../ChangeProxy";
 import "./ExperienceForm.css";
-import DateSelector from "./DateSelector";
-import CheckBox from "./CheckBox";
+import DateSelector from "../DateSelector";
+import CheckBox from "../CheckBox";
 import TagsForm from "./TagsForm";
-import ImageSelector from "./ImageSelector";
+import ImageSelector from "../ImageSelector";
 
 class ExperienceForm extends React.Component {
     static defaultProps = {

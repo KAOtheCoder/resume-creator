@@ -1,9 +1,9 @@
 import React from "react";
-import { Experience, ExperienceList } from "../Resume";
-import CollapsibleList from "./CollapsibleList";
+import { Experience, ExperienceList } from "../../Resume";
+import CollapsibleList from "../CollapsibleList";
 import ExperienceForm from "./ExperienceForm";
-import KeyGenerator from "../KeyGenerator.js";
-import createChangeProxy from "../ChangeProxy";
+import KeyGenerator from "../../KeyGenerator";
+import createChangeProxy from "../../ChangeProxy";
 
 class ExperienceListForm extends React.Component {
     static defaultProps = {

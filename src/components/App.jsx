@@ -1,7 +1,7 @@
 import React from 'react';
 import ResumeCreator from "../ResumeCreator";
 import { Experience, ExperienceList, Information, InformationList, Resume } from "../Resume";
-import ResumeForm from "./ResumeForm";
+import ResumeForm from "./forms/ResumeForm";
 import './App.css';
 
 class App extends React.Component {

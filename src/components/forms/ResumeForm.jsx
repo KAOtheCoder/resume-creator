@@ -1,12 +1,12 @@
 import React from "react";
-import { Resume } from "../Resume";
+import { Resume } from "../../Resume";
 import "./ResumeForm.css";
-import UnderlinedInput from "./UnderlinedInput";
-import ExpandingTextArea from "./ExpandingTextArea";
+import UnderlinedInput from "../UnderlinedInput";
+import ExpandingTextArea from "../ExpandingTextArea";
 import InformationSuperlistForm from "./InformationSuperlistForm";
 import ExperienceSuperlistForm from "./ExperienceSuperlistForm";
-import createChangeProxy from "../ChangeProxy";
-import ImageSelector from "./ImageSelector";
+import createChangeProxy from "../../ChangeProxy";
+import ImageSelector from "../ImageSelector";
 
 class ResumeForm extends React.Component {
     static defaultProps = {
