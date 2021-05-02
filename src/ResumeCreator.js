@@ -272,9 +272,9 @@ class ResumeCreator {
     }
 
     printHeader(x, y, width, header, visible = true) {
-        const TOP_MARGIN = 3;
+        const VERTICAL_MARGIN = 3;
         const HEADER_FONT_SIZE = 13;
-        const LEFT_RIGHT_MARGIN = HEADER_FONT_SIZE;
+        const HORIZONTAL_MARGIN = HEADER_FONT_SIZE + 2 * VERTICAL_MARGIN;
 
         const textColor = this.doc.getTextColor();
 
@@ -282,18 +282,19 @@ class ResumeCreator {
         this.doc.setFontSize(HEADER_FONT_SIZE);
         this.doc.setTextColor("white");
 
-        const height = this.printText(x, y, width - 2 * LEFT_RIGHT_MARGIN, header, "left", false) + TOP_MARGIN;
-        let textWidth = Math.min(this.doc.getTextWidth(header), width - height - 2 * LEFT_RIGHT_MARGIN);
+        const maxTextWidth = width - 2 * HORIZONTAL_MARGIN;
+        const height = this.printText(x, y, maxTextWidth, header, "left", false) + 2 * VERTICAL_MARGIN;
+        let textWidth = Math.min(this.doc.getTextWidth(header), maxTextWidth);
 
         if (visible) {
             this.doc.setFillColor("black");
             this.doc.setDrawColor(this.doc.getFillColor());
-            const headerWidth = textWidth + 2 * LEFT_RIGHT_MARGIN;
+            const headerWidth = textWidth + 2 * HORIZONTAL_MARGIN;
             const halfHeight = height / 2;
-            this.doc.lines([[0, 0], [halfHeight, -halfHeight], [headerWidth, 0], [halfHeight, halfHeight], [-halfHeight, halfHeight], [-headerWidth, 0]], x, y + halfHeight, [1, 1], "F", true);
+            this.doc.lines([[0, 0], [HORIZONTAL_MARGIN, -halfHeight], [textWidth, 0], [HORIZONTAL_MARGIN, halfHeight], [-HORIZONTAL_MARGIN, halfHeight], [-textWidth, 0]], x, y + halfHeight, [1, 1], "F", true);
             this.doc.setLineWidth(2);
             this.doc.line(x + headerWidth, y + halfHeight, x + width, y + halfHeight);
-            this.printText(x + halfHeight + LEFT_RIGHT_MARGIN, y + TOP_MARGIN, width, header, "left");
+            this.printText(x + HORIZONTAL_MARGIN, y + VERTICAL_MARGIN, maxTextWidth, header, "left");
         }
         
         this.doc.setTextColor(textColor);
