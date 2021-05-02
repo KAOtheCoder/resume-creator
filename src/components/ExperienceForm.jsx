@@ -85,7 +85,10 @@ class ExperienceForm extends React.Component {
                     year
                     month
                     day={false}
-                    onDateChange={(date) => this.experienceProxy.startDate = date}
+                    onDateChange={(date) => {
+                        this.experience.startDate = date;
+                        this.props.onExperienceChange(this.experience);
+                    }}
                     />
                     <div
                     className="ExperienceForm-EndDate"
@@ -119,7 +122,10 @@ class ExperienceForm extends React.Component {
                 year
                 month
                 day={false}
-                onDateChange={(date) => this.experienceProxy.endDate = date}
+                onDateChange={(date) => {
+                    this.experience.endDate = date;
+                    this.props.onExperienceChange(this.experience);
+                }}
                 />
             ]);
     }
