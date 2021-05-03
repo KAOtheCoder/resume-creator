@@ -19,6 +19,7 @@ class ExpandingTextArea extends React.Component {
             className="ExpandingTextArea"
             ref={this.textarea}
             placeholder={this.props.placeholder}
+            defaultValue={this.props.defaultValue}
             onChange={(event) => this.handleOnChange(event)}
             />
         );

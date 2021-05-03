@@ -26,6 +26,7 @@ class ResumeForm extends React.Component {
             <div className="ResumeForm">
                 <UnderlinedInput 
                 placeholder="Name"
+                defaultValue={this.resume.name}
                 onChange={(event) => {this.resumeProxy.name = event.target.value}}
                 />
                 <ImageSelector
@@ -35,6 +36,7 @@ class ResumeForm extends React.Component {
                 />
                 <ExpandingTextArea
                 placeholder="Brief"
+                defaultValue={this.props.brief}
                 onChange={(event) => this.resumeProxy.brief = event.target.value}
                 />
                 <InformationSuperlistForm

@@ -84,6 +84,7 @@ class ResumeCreator {
         for (let i = 0; i < paragraphs.length; ++i) {
             const lines = this.doc.splitTextToSize(paragraphs[i], width);
             this.doc.text(lines, x, y + height, { align: align, baseline: "top", maxWidth: width, renderingMode: visible ? "fill" : "invisible" });
+            
             height += lines.length * this.doc.getLineHeight();
         }
  
