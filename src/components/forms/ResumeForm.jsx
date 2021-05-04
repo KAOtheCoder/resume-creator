@@ -36,7 +36,7 @@ class ResumeForm extends React.Component {
                 />
                 <ExpandingTextArea
                 placeholder="Brief"
-                defaultValue={this.props.brief}
+                defaultValue={this.resume.brief}
                 onChange={(event) => this.resumeProxy.brief = event.target.value}
                 />
                 <InformationSuperlistForm

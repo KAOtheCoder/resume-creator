@@ -214,6 +214,8 @@ class ResumeCreator {
         if (visible && experience.headerLink.length > 0)
             this.doc.link(experienceX, y, experienceWidth, height, { url: experience.headerLink });
 
+        height = Math.max(height, iconHeight);
+
         if (experience.tags.length > 0) {
             height += SPACING1;
             this.doc.setFont(this.doc.getFont().fontName, "normal");
@@ -221,7 +223,6 @@ class ResumeCreator {
             height += this.printTags(experienceX, y + height, experienceWidth, experience.tags, visible);
         }
         
-        height = Math.max(height, iconHeight);
         height += SPACING1;
         this.doc.setFont(this.doc.getFont().fontName, "normal");
         this.doc.setFontSize(DESCRIPTION_FONT_SIZE);
