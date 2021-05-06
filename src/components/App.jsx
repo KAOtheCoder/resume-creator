@@ -7,8 +7,14 @@ class App extends React.Component {
     constructor(props) {
         super(props);
 
+        const cookiesBanner = sessionStorage.getItem("CookiesBanner") ?? "show";
+
         this.resumeCreator = new ResumeCreator();
-        this.state = {preview: undefined};
+        this.state = {
+            preview: undefined,
+            cookiesBanner: cookiesBanner === "show"
+        };
+
         this.previewRef = React.createRef();
         this.updateTimer = 0;
 
@@ -20,6 +26,30 @@ class App extends React.Component {
     }
 
     render() {
+        console.log(this.state.cookiesBanner);
+
+        let cookiesBanner = this.state.cookiesBanner ? (
+            <div className="App-CookiesBanner">
+                This website does not use cookies, but uses local storage to save your work.
+                <div 
+                className="App-CookiesBannerButton"
+                onClick={() => {
+                    sessionStorage.setItem("CookiesBanner", "hide");
+                    this.setState({cookiesBanner: false});
+                }}
+                >
+                    OK
+                </div>
+            </div>
+        ) : undefined;
+
+        console.log(this.state.cookiesBanner);
+
+        if (!this.state.cookiesBanner)
+            cookiesBanner = undefined;
+            
+        console.log(cookiesBanner);
+
         return (
             <div className="App">
                 <ResumeForm
@@ -42,6 +72,7 @@ class App extends React.Component {
                         this.fadeIn(preview);
                 }}
                 />
+                {cookiesBanner}
             </div>
         );
     }
