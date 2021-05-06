@@ -22,6 +22,15 @@ class App extends React.Component {
     render() {
         return (
             <div className="App">
+                <ResumeForm
+                resume={this.resume}
+                onResumeChange={(resume) => {
+                    if (this.updateTimer > 0)
+                        clearTimeout(this.updateTimer);
+                    
+                    this.updateTimer = setTimeout(() => {this.updatePreview(resume);}, 2000);
+                }}
+                />
                 <iframe
                 ref={this.previewRef}
                 className="App-Preview"
@@ -31,15 +40,6 @@ class App extends React.Component {
                     const preview = this.previewRef.current;
                     if (preview)
                         this.fadeIn(preview);
-                }}
-                />
-                <ResumeForm
-                resume={this.resume}
-                onResumeChange={(resume) => {
-                    if (this.updateTimer > 0)
-                        clearTimeout(this.updateTimer);
-                    
-                    this.updateTimer = setTimeout(() => {this.updatePreview(resume);}, 2000);
                 }}
                 />
             </div>
