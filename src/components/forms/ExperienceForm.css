@@ -10,4 +10,5 @@
 
 .ExperienceForm-Date {
     justify-content: space-between;
+    flex-wrap: wrap;
 }

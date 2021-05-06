@@ -45,7 +45,7 @@ class App extends React.Component {
             </div>
         );
     }
-
+    
     async updatePreview(resume) {
         this.updateTimer = 0;
 
