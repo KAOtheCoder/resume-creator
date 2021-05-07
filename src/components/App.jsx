@@ -26,8 +26,6 @@ class App extends React.Component {
     }
 
     render() {
-        console.log(this.state.cookiesBanner);
-
         let cookiesBanner = this.state.cookiesBanner ? (
             <div className="App-CookiesBanner">
                 This website does not use cookies, but uses local storage to save your work.
@@ -43,12 +41,8 @@ class App extends React.Component {
             </div>
         ) : undefined;
 
-        console.log(this.state.cookiesBanner);
-
         if (!this.state.cookiesBanner)
             cookiesBanner = undefined;
-            
-        console.log(cookiesBanner);
 
         return (
             <div className="App">
