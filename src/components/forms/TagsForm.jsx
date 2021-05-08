@@ -12,12 +12,9 @@ class TagsForm extends React.Component {
     constructor(props) {
         super(props);
 
-        this.tags = this.props.tags ?? [];
-        this.props.onTagsChange(this.tags);
-
-        this.tagsProxy = createChangeProxy(this.tags, () => this.props.onTagsChange(this.tags));
+        this.tagsProxy = createChangeProxy(this.props.tags, () => this.props.onTagsChange(this.props.tags));
         this.keyGenerator = new KeyGenerator();
-        this.state = {tagKeys: this.keyGenerator.generateKeys(this.tags.length)};
+        this.state = {tagKeys: this.keyGenerator.generateKeys(this.props.tags.length)};
     }
 
     render() {
@@ -39,7 +36,7 @@ class TagsForm extends React.Component {
             elements.push(
                 <CollapsibleListTitle
                 key={this.state.tagKeys[i]}
-                title={this.tags[i]}
+                title={this.props.tags[i]}
                 titleEditable
                 onTitleChange={(title) => this.tagsProxy[i] = title}
                 deletable
@@ -86,7 +83,7 @@ class TagsForm extends React.Component {
     swapTags(indexFirst, indexSecond) {
         this.setState(
             (state) => {
-                [this.tagsProxy[indexFirst], this.tagsProxy[indexSecond]] = [this.tags[indexSecond], this.tags[indexFirst]];
+                [this.tagsProxy[indexFirst], this.tagsProxy[indexSecond]] = [this.props.tags[indexSecond], this.props.tags[indexFirst]];
                 const keys = [...state.tagKeys];
                 [keys[indexFirst], keys[indexSecond]] = [keys[indexSecond], keys[indexFirst]];
                 return {tagKeys: keys};

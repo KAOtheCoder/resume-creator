@@ -1,5 +1,5 @@
 import React from "react";
-import { Experience, ExperienceList } from "../../Resume";
+import { Experience} from "../../Resume";
 import CollapsibleList from "../CollapsibleList";
 import ExperienceForm from "./ExperienceForm";
 import KeyGenerator from "../../KeyGenerator";
@@ -13,19 +13,16 @@ class ExperienceListForm extends React.Component {
     constructor(props) {
         super(props);
 
-        this.experienceList = this.props.experienceList ?? new ExperienceList("Experience List");
-        this.props.onExperienceListChange(this.experienceList);
-
-        this.experienceListProxy = createChangeProxy(this.experienceList, () => this.props.onExperienceListChange(this.experienceList));
-        this.experiencesProxy = createChangeProxy(this.experienceList.experiences, () => this.props.onExperienceListChange(this.experienceList));
+        this.experienceListProxy = createChangeProxy(this.props.experienceList, () => this.props.onExperienceListChange(this.props.experienceList));
+        this.experiencesProxy = createChangeProxy(this.props.experienceList.experiences, () => this.props.onExperienceListChange(this.props.experienceList));
         this.keyGenerator = new KeyGenerator();
-        this.state = {experienceKeys: this.keyGenerator.generateKeys(this.experienceList.experiences.length)};
+        this.state = {experienceKeys: this.keyGenerator.generateKeys(this.props.experienceList.experiences.length)};
     }
 
     render() {
         return (
             <CollapsibleList
-            title={this.experienceList.header}
+            title={this.props.experienceList.header}
             titleEditable
             onTitleChange={(title) => this.experienceListProxy.header = title}
             deletable
@@ -49,8 +46,8 @@ class ExperienceListForm extends React.Component {
             elements.push(
                 <ExperienceForm
                 key={this.state.experienceKeys[i]}
-                experience={this.experienceList.experiences[i]}
-                onExperienceChange={(experience) => this.props.onExperienceListChange(this.experienceList)}
+                experience={this.props.experienceList.experiences[i]}
+                onExperienceChange={(experience) => this.props.onExperienceListChange(this.props.experienceList)}
                 onDelete={() => this.deleteExperience(i)}
                 movableUp={i > 0}
                 onMoveUp={() => this.moveExperienceUp(i)}

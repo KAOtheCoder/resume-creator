@@ -1,7 +1,6 @@
 import React from "react";
 import CollapsibleList from "../CollapsibleList";
 import UnderlinedInput from "../UnderlinedInput";
-import { Information } from "../../Resume";
 import CheckBox from "../CheckBox";
 import "./InformationForm.css";
 import Slider from "../Slider";
@@ -16,16 +15,13 @@ class InformationForm extends React.Component {
     constructor(props) {
         super(props);
 
-        this.information = this.props.information ?? new Information("Key");
-        this.props.onInformationChange(this.information);
+        this.informationProxy = createChangeProxy(this.props.information, () => this.props.onInformationChange(this.props.information));
 
-        this.informationProxy = createChangeProxy(this.information, () => this.props.onInformationChange(this.information));
-
-        const ratingEnabled = this.information.rating >= 0;
+        const ratingEnabled = this.props.information.rating >= 0;
         
         this.state = {
             ratingEnabled: ratingEnabled,
-            rating: ratingEnabled ? this.information.rating : 50
+            rating: ratingEnabled ? this.props.information.rating : 50
         };
     }
 
@@ -75,7 +71,7 @@ class InformationForm extends React.Component {
     render() {
         return (
             <CollapsibleList
-            title={this.information.key}
+            title={this.props.information.key}
             titleEditable
             onTitleChange={(title) => this.informationProxy.key = title}
             deletable
@@ -88,7 +84,7 @@ class InformationForm extends React.Component {
             elements={[
                 <UnderlinedInput
                 key="value"
-                defaultValue={this.information.value}
+                defaultValue={this.props.information.value}
                 placeholder="Value"
                 onChange={(event) => this.informationProxy.value = event.target.value}
                 />,

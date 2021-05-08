@@ -13,12 +13,9 @@ class ExperienceSuperlist extends React.Component {
     constructor(props) {
         super(props);
 
-        this.experienceSuperlist = this.props.experienceSuperlist ?? [];
-        this.props.onExperienceSuperlistChange(this.experienceSuperlist);
-
-        this.experienceSuperlistProxy = createChangeProxy(this.experienceSuperlist, () => this.props.onExperienceSuperlistChange(this.experienceSuperlist));
+        this.experienceSuperlistProxy = createChangeProxy(this.props.experienceSuperlist, () => this.props.onExperienceSuperlistChange(this.props.experienceSuperlist));
         this.keyGenerator = new KeyGenerator();
-        this.state = {experienceListKeys: this.keyGenerator.generateKeys(this.experienceSuperlist.length)};
+        this.state = {experienceListKeys: this.keyGenerator.generateKeys(this.props.experienceSuperlist.length)};
     }
 
     render() {
@@ -40,8 +37,8 @@ class ExperienceSuperlist extends React.Component {
             elements.push(
                 <ExperienceListForm
                 key={this.state.experienceListKeys[i]}
-                experienceList={this.experienceSuperlist[i]}
-                onExperienceListChange={() => this.props.onExperienceSuperlistChange(this.experienceSuperlist)}
+                experienceList={this.props.experienceSuperlist[i]}
+                onExperienceListChange={() => this.props.onExperienceSuperlistChange(this.props.experienceSuperlist)}
                 onDelete={() => this.deleteExperienceList(i)}
                 movableUp={i > 0}
                 onMoveUp={() => this.moveExperienceListUp(i)}
@@ -85,7 +82,7 @@ class ExperienceSuperlist extends React.Component {
     swapExperienceLists(indexFirst, indexSecond) {
         this.setState(
             (state) => {
-                [this.experienceSuperlistProxy[indexFirst], this.experienceSuperlistProxy[indexSecond]] = [this.experienceSuperlist[indexSecond], this.experienceSuperlist[indexFirst]];
+                [this.experienceSuperlistProxy[indexFirst], this.experienceSuperlistProxy[indexSecond]] = [this.props.experienceSuperlist[indexSecond], this.props.experienceSuperlist[indexFirst]];
                 const keys = [...state.experienceListKeys];
                 [keys[indexFirst], keys[indexSecond]] = [keys[indexSecond], keys[indexFirst]];
                 return {experienceListKeys: keys};

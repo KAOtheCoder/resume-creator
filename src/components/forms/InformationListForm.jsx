@@ -1,5 +1,5 @@
 import React from "react";
-import { Information, InformationList } from "../../Resume";
+import { Information } from "../../Resume";
 import CollapsibleList from "../CollapsibleList";
 import InformationForm from "./InformationForm";
 import KeyGenerator from "../../KeyGenerator.js";
@@ -13,19 +13,16 @@ class InformationListForm extends React.Component {
     constructor(props) {
         super(props);
 
-        this.informationList = this.props.informationList ?? new InformationList("Information List");
-        this.props.onInformationListChange(this.informationList);
-
-        this.informationListProxy = createChangeProxy(this.informationList, () => this.props.onInformationListChange(this.informationList));
-        this.informationsProxy = createChangeProxy(this.informationList.informations, () => this.props.onInformationListChange(this.informationList));
+        this.informationListProxy = createChangeProxy(this.props.informationList, () => this.props.onInformationListChange(this.props.informationList));
+        this.informationsProxy = createChangeProxy(this.props.informationList.informations, () => this.props.onInformationListChange(this.props.informationList));
         this.keyGenerator = new KeyGenerator();
-        this.state = {informationKeys: this.keyGenerator.generateKeys(this.informationList.informations.length)};
+        this.state = {informationKeys: this.keyGenerator.generateKeys(this.props.informationList.informations.length)};
     }
 
     render() {
         return (
             <CollapsibleList
-            title={this.informationList.header}
+            title={this.props.informationList.header}
             titleEditable
             onTitleChange={(title) => this.informationListProxy.header = title}
             deletable
@@ -49,8 +46,8 @@ class InformationListForm extends React.Component {
             elements.push(
                 <InformationForm
                 key={this.state.informationKeys[i]}
-                information={this.informationList.informations[i]}
-                onInformationChange={() => this.props.onInformationListChange(this.informationList)}
+                information={this.props.informationList.informations[i]}
+                onInformationChange={() => this.props.onInformationListChange(this.props.informationList)}
                 onDelete={() => this.deleteInformation(i)}
                 movableUp={i > 0}
                 onMoveUp={() => this.moveInformationUp(i)}

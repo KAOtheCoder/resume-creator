@@ -6,6 +6,7 @@ import FileSelector from "./FileSelector";
 class ImageSelector extends React.Component {
     static defaultProps = {
         checkable: false,
+        enabled: true,
         onSourceChanged: (source) => {},
         accept: "image/*"
     }
@@ -17,8 +18,8 @@ class ImageSelector extends React.Component {
         this.reader = new FileReader();
         this.reader.onload = () => {this.setSource(this.reader.result)};
         this.state = {
-            enabled: true,
-            src: ""
+            enabled: this.props.enabled,
+            source: this.props.source
         };
     }
 

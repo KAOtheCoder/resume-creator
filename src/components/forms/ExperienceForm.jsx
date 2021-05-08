@@ -1,7 +1,6 @@
 import React from "react";
 import CollapsibleList from "../CollapsibleList";
 import UnderlinedInput from "../UnderlinedInput";
-import { Experience } from "../../Resume";
 import ExpandingTextArea from "../ExpandingTextArea";
 import createChangeProxy from "../../ChangeProxy";
 import "./ExperienceForm.css";
@@ -18,20 +17,18 @@ class ExperienceForm extends React.Component {
     constructor(props) {
         super(props);
 
-        this.experience = this.props.experience ?? new Experience("Experience", "");
-        this.props.onExperienceChange(this.experience);
-        this.experienceProxy = createChangeProxy(this.experience, () => this.props.onExperienceChange(this.experience));
+        this.experienceProxy = createChangeProxy(this.props.experience, () => this.props.onExperienceChange(this.props.experience));
 
         this.state = {
-            endDateEnabled: this.experience.endDate ? true : false,
-            endDate: this.experience.endDate
+            endDateEnabled: this.props.experience.endDate ? true : false,
+            endDate: this.props.experience.endDate
         };
     }
 
     render() {
         return (
             <CollapsibleList
-            title={this.experience.header}
+            title={this.props.experience.header}
             titleEditable
             onTitleChange={(title) => this.experienceProxy.header = title}
             deletable
@@ -43,14 +40,16 @@ class ExperienceForm extends React.Component {
             elements={[
                 <UnderlinedInput
                 key="headerDescription"
-                defaultValue={this.experience.headerDescription}
+                defaultValue={this.props.experience.headerDescription}
                 placeholder="Header Description"
                 onChange={(event) => this.experienceProxy.headerDescription = event.target.value}
                 />,
                 <ImageSelector
                 key="headerIcon"
                 checkable
+                enabled={this.props.experience.headerIcon}
                 label="Header Icon"
+                source={this.props.experience.headerIcon}
                 onSourceChanged={(source) => {this.experienceProxy.headerIcon = source;}}
                 />,
                 <div 
@@ -60,15 +59,15 @@ class ExperienceForm extends React.Component {
                     <i className="material-icons">link</i>
                     <UnderlinedInput
                     className="ExperienceForm-HeaderLinkInput"
-                    defaultValue={this.experience.headerLink}
+                    defaultValue={this.props.experience.headerLink}
                     placeholder="Header Link"
                     onChange={(event) => this.experienceProxy.headerLink = event.target.value}
                     />
                 </div>,
                 <TagsForm 
                     key="tags"
-                    tags={this.experience.tags}
-                    onTagsChange={(tags) => this.props.onExperienceChange(this.experience)}
+                    tags={this.props.experience.tags}
+                    onTagsChange={(tags) => this.props.onExperienceChange(this.props.experience)}
                 />,
                 <div
                 className="ExperienceForm-Date"
@@ -80,10 +79,10 @@ class ExperienceForm extends React.Component {
                     year
                     month
                     day={false}
-                    date={this.experience.startDate}
+                    date={this.props.experience.startDate}
                     onDateChange={(date) => {
-                        this.experience.startDate = date;
-                        this.props.onExperienceChange(this.experience);
+                        this.props.experience.startDate = date;
+                        this.props.onExperienceChange(this.props.experience);
                     }}
                     />
                     <div
@@ -101,7 +100,7 @@ class ExperienceForm extends React.Component {
                 </div>,
                 <ExpandingTextArea
                 key="description"
-                defaultValue={this.experience.description}
+                defaultValue={this.props.experience.description}
                 placeholder="Description"
                 onChange={(event) => this.experienceProxy.description = event.target.value}
                 />
@@ -118,10 +117,10 @@ class ExperienceForm extends React.Component {
                 year
                 month
                 day={false}
-                date={this.experience.endDate}
+                date={this.props.experience.endDate}
                 onDateChange={(date) => {
-                    this.experience.endDate = date;
-                    this.props.onExperienceChange(this.experience);
+                    this.props.experience.endDate = date;
+                    this.props.onExperienceChange(this.props.experience);
                 }}
                 />
             ]);

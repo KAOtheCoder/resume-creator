@@ -13,12 +13,9 @@ class InformationSuperlistForm extends React.Component {
     constructor(props) {
         super(props);
 
-        this.informationSuperlist = this.props.informationSuperlist ?? [];
-        this.props.onInformationSuperlistChange(this.informationSuperlist);
-
-        this.informationSuperlistProxy = createChangeProxy(this.informationSuperlist, () => this.props.onInformationSuperlistChange(this.informationSuperlist));
+        this.informationSuperlistProxy = createChangeProxy(this.props.informationSuperlist, () => this.props.onInformationSuperlistChange(this.props.informationSuperlist));
         this.keyGenerator = new KeyGenerator();
-        this.state = {informationListKeys: this.keyGenerator.generateKeys(this.informationSuperlist.length)};
+        this.state = {informationListKeys: this.keyGenerator.generateKeys(this.props.informationSuperlist.length)};
     }
 
     render() {
@@ -44,8 +41,8 @@ class InformationSuperlistForm extends React.Component {
             elements.push(
                 <InformationListForm
                 key={this.state.informationListKeys[i]}
-                informationList={this.informationSuperlist[i]}
-                onInformationListChange={() => this.props.onInformationSuperlistChange(this.informationSuperlist)}
+                informationList={this.props.informationSuperlist[i]}
+                onInformationListChange={() => this.props.onInformationSuperlistChange(this.props.informationSuperlist)}
                 onDelete={() => this.deleteInformationList(i)}
                 movableUp={i > 0}
                 onMoveUp={() => this.moveInformationListUp(i)}
@@ -89,7 +86,7 @@ class InformationSuperlistForm extends React.Component {
     swapInformationLists(indexFirst, indexSecond) {
         this.setState(
             (state) => {
-                [this.informationSuperlistProxy[indexFirst], this.informationSuperlistProxy[indexSecond]] = [this.informationSuperlist[indexSecond], this.informationSuperlist[indexFirst]];
+                [this.informationSuperlistProxy[indexFirst], this.informationSuperlistProxy[indexSecond]] = [this.props.informationSuperlist[indexSecond], this.props.informationSuperlist[indexFirst]];
                 const keys = [...state.informationListKeys];
                 [keys[indexFirst], keys[indexSecond]] = [keys[indexSecond], keys[indexFirst]];
                 return {informationListKeys: keys};

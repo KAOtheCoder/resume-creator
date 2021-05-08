@@ -2,6 +2,8 @@ import React from 'react';
 import ResumeCreator from "../ResumeCreator";
 import ResumeForm from "./forms/ResumeForm";
 import './App.css';
+import { Resume } from '../Resume';
+import KeyGenerator from '../KeyGenerator';
 
 class App extends React.Component {
     constructor(props) {
@@ -10,19 +12,44 @@ class App extends React.Component {
         const cookiesBanner = sessionStorage.getItem("CookiesBanner") ?? "show";
 
         this.resumeCreator = new ResumeCreator();
+        this.previewRef = React.createRef();
+        this.updateTimer = 0;
+        this.saves = [];
+        this.keyGenerator = new KeyGenerator();
+
+        const resumeString = localStorage.getItem("Resume");
+        this.resume = resumeString ? JSON.parse(resumeString) : new Resume("");
+        this.saveResume(JSON.stringify(this.resume));
+
         this.state = {
+            key: this.keyGenerator.generateKey(),
             preview: undefined,
             cookiesBanner: cookiesBanner === "show"
         };
 
-        this.previewRef = React.createRef();
-        this.updateTimer = 0;
+        document.addEventListener("keydown", (event) => {
+            if (event.ctrlKey && event.key === 'z') {
+                if (this.undo()) {
+                    event.preventDefault();
+                    return false;
+                }
+            }
 
-        const resumeString = localStorage.getItem("Resume");
-        if (resumeString) {
+            return true;
+        });
+    }
+
+    undo() {
+        if (this.saves.length > 1) {
+            this.saves.pop();
+            const resumeString = this.saves.pop();
             this.resume = JSON.parse(resumeString);
-            this.updatePreview(this.resume);
+            this.setState({key: this.keyGenerator.generateKey()});
+            this.saveResume(resumeString);
+            return true;
         }
+
+        return false;
     }
 
     render() {
@@ -41,18 +68,19 @@ class App extends React.Component {
             </div>
         ) : undefined;
 
-        if (!this.state.cookiesBanner)
-            cookiesBanner = undefined;
-
         return (
             <div className="App">
                 <ResumeForm
+                key={this.state.key}
                 resume={this.resume}
                 onResumeChange={(resume) => {
-                    if (this.updateTimer > 0)
+                    if (this.updateTimer > 0) {
                         clearTimeout(this.updateTimer);
+                        this.updateTimer = 0;
+                    }
                     
-                    this.updateTimer = setTimeout(() => {this.updatePreview(resume);}, 2000);
+                    const resumeString = JSON.stringify(resume);
+                    this.updateTimer = setTimeout(() => {this.saveResume(resumeString);}, 2000);
                 }}
                 />
                 <iframe
@@ -71,18 +99,20 @@ class App extends React.Component {
         );
     }
     
-    async updatePreview(resume) {
-        this.updateTimer = 0;
+    async saveResume(resumeString) {
+        if (this.saves.length > 0 && resumeString === this.saves[this.saves.length - 1])
+            return;
 
         const preview = this.previewRef.current;
 
         if (preview)
             this.fadeOut(preview);
 
-        const doc = await this.resumeCreator.createResume(resume);
+        this.saves.push(resumeString);
+        const doc = await this.resumeCreator.createResume(JSON.parse(resumeString));
         const src = doc.output("datauristring");
         this.setState({preview:src});
-        localStorage.setItem("Resume", JSON.stringify(resume));
+        localStorage.setItem("Resume", resumeString);
     }
 
     fadeIn(element) {
