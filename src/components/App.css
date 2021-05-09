@@ -55,11 +55,11 @@
 }
 
 ::selection {
-    background: var(--green);
+    background: var(--focus-color);
     color: var(--focus-white);
 }
 
 ::-moz-selection {
-    background: var(--green);
+    background: var(--focus-color);
     color: var(--focus-white);
 }
