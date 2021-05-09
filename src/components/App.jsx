@@ -5,13 +5,13 @@ import './App.css';
 import { Resume } from '../Resume';
 import KeyGenerator from '../KeyGenerator';
 import HistoryStack from "../HistoryStack";
+import CookiesBanner from './CookiesBanner';
 
 class App extends React.Component {
     constructor(props) {
         super(props);
 
         const MAX_HISTORY_SIZE = 10;
-        const cookiesBanner = sessionStorage.getItem("CookiesBanner") ?? "show";
 
         this.resumeCreator = new ResumeCreator();
         this.previewRef = React.createRef();
@@ -24,8 +24,7 @@ class App extends React.Component {
 
         this.state = {
             key: this.keyGenerator.generateKey(),
-            preview: undefined,
-            cookiesBanner: cookiesBanner === "show"
+            preview: undefined
         };
 
         this.save();
@@ -59,21 +58,6 @@ class App extends React.Component {
     }
 
     render() {
-        let cookiesBanner = this.state.cookiesBanner ? (
-            <div className="App-CookiesBanner">
-                This website does not use cookies, but uses local storage to save your work.
-                <div 
-                className="App-CookiesBannerButton"
-                onClick={() => {
-                    sessionStorage.setItem("CookiesBanner", "hide");
-                    this.setState({cookiesBanner: false});
-                }}
-                >
-                    OK
-                </div>
-            </div>
-        ) : undefined;
-
         return (
             <div className="App">
                 <ResumeForm
@@ -100,7 +84,7 @@ class App extends React.Component {
                         this.fadeIn(preview);
                 }}
                 />
-                {cookiesBanner}
+                <CookiesBanner />
             </div>
         );
     }
