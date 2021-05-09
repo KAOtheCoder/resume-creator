@@ -4,15 +4,18 @@
     --white: rgb(224, 224, 224);
     --focus-white: white;
     --focus-color: rgb(41, 122, 209);
+    --bar-color: rgb(24,32,40);
 }
 
 .App {
+    --toolBar-height: 0;
+    margin-top: var(--toolBar-height);
+    display: flex;
     flex-direction: row;
     text-align: center;
-    display: flex;
     width: 100%;
     max-width: 100vw;
-    height: 100vh;
+    height: calc(100vh - var(--toolBar-height));
     background: rgb(24, 24, 24);
 }
 

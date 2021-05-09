@@ -9,7 +9,7 @@ class ExpandingTextArea extends React.Component {
     constructor(props) {
         super(props);
 
-        this.textarea = React.createRef();
+        this.textareaRef = React.createRef();
         this.updateSize = this.updateSize.bind(this);
     }
 
@@ -17,34 +17,32 @@ class ExpandingTextArea extends React.Component {
         return (
             <textarea
             className="ExpandingTextArea"
-            ref={this.textarea}
+            ref={this.textareaRef}
             placeholder={this.props.placeholder}
             defaultValue={this.props.defaultValue}
-            onChange={(event) => this.handleOnChange(event)}
+            onChange={(event) => {
+                this.updateSize();
+                this.props.onChange(event)
+            }}
             />
         );
     }
 
-    handleOnChange(event) {
-        this.updateSize();
-        this.props.onChange(event);
-    }
-
     updateSize() {
-        const textarea = this.textarea.current;
+        const textarea = this.textareaRef.current;
+        if (textarea) {
+            const EXTRA_HEIGHT = 20;
+            const MIN_HEIGHT = 40;
+            const MAX_HEIGHT = 150;
 
-        const EXTRA_HEIGHT = 20;
-        const MIN_HEIGHT = 40;
-        const MAX_HEIGHT = 150;
-
-        textarea.style.height = "auto";
-        const height = Math.min(MAX_HEIGHT, Math.max(MIN_HEIGHT, textarea.scrollHeight + EXTRA_HEIGHT));
-        textarea.style.height = `${height}px`;
+            textarea.style.height = "auto";
+            const height = Math.min(MAX_HEIGHT, Math.max(MIN_HEIGHT, textarea.scrollHeight + EXTRA_HEIGHT));
+            textarea.style.height = `${height}px`;
+        }
     }
 
     componentDidMount() {
         this.updateSize();
-
         window.addEventListener("resize", this.updateSize);
     }
 

@@ -6,6 +6,7 @@ import { Resume } from '../Resume';
 import KeyGenerator from '../KeyGenerator';
 import HistoryStack from "../HistoryStack";
 import CookiesBanner from './CookiesBanner';
+import ToolBar from "./ToolBar";
 
 class App extends React.Component {
     constructor(props) {
@@ -24,7 +25,8 @@ class App extends React.Component {
 
         this.state = {
             key: this.keyGenerator.generateKey(),
-            preview: undefined
+            preview: undefined,
+            marginTop: "56px"
         };
 
         this.save();
@@ -41,12 +43,16 @@ class App extends React.Component {
         });
     }
 
-    undo() { this.historyAction(() => this.history.undo()); }
+    undo() { this.reload(this.history.undo()); }
 
-    redo() { this.historyAction(() => this.history.redo()); }
+    redo() { this.reload(this.history.redo()); }
 
-    historyAction(action) {
-        const resumeString = action();
+    clear() { 
+        this.reload(JSON.stringify(new Resume("")));
+        this.save();
+    }
+
+    reload(resumeString) {
         if (resumeString) {
             this.resume = JSON.parse(resumeString);
             this.setState({key: this.keyGenerator.generateKey()});
@@ -59,7 +65,18 @@ class App extends React.Component {
 
     render() {
         return (
-            <div className="App">
+            <div 
+            className="App"
+            style={{"--toolBar-height": this.state.marginTop}}
+            >
+                <ToolBar
+                onHeightChange={(height) => this.setState({marginTop: height + "px"})}
+                onUndo={() => this.undo()}
+                onRedo={() => this.redo()}
+                onRefresh={() => this.updatePreview()}
+                onDownload={() => this.download(this.resume.name + ".pdf")}
+                onClear={() => this.clear()}
+                />
                 <ResumeForm
                 key={this.state.key}
                 resume={this.resume}
@@ -92,6 +109,11 @@ class App extends React.Component {
     save() {
         if (this.history.save(JSON.stringify(this.resume)))
             this.updatePreview();
+    }
+
+    async download(fileName) {
+        const doc = await this.resumeCreator.createResume(this.resume);
+        doc.save(fileName);
     }
 
     async updatePreview() {
