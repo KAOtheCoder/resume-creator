@@ -19,6 +19,10 @@ class App extends React.Component {
         this.updateTimer = 0;
         this.history = new HistoryStack(MAX_HISTORY_SIZE);
         this.keyGenerator = new KeyGenerator();
+        this.importReader = new FileReader();
+        this.importReader.onloadend = (event) => {this.reload(event.target.result)};
+        this.importInputRef = React.createRef();
+        this.exportARef = React.createRef();
 
         const resumeString = localStorage.getItem("Resume");
         this.resume = resumeString ? JSON.parse(resumeString) : new Resume("");
@@ -76,6 +80,12 @@ class App extends React.Component {
                 onRefresh={() => this.updatePreview()}
                 onDownload={() => this.download(this.resume.name + ".pdf")}
                 onClear={() => this.clear()}
+                onImport={() => {
+                    const fileInput = this.importInputRef.current;
+                    if (fileInput)
+                        fileInput.click();
+                }}
+                onExport={() => this.export(this.resume.name + ".json")}
                 />
                 <ResumeForm
                 key={this.state.key}
@@ -102,6 +112,20 @@ class App extends React.Component {
                 }}
                 />
                 <CookiesBanner />
+                <input
+                ref={this.importInputRef}
+                style={{display: "none"}}
+                type="file"
+                accept="application/JSON"
+                onChange={(event) => {
+                    if (event.target.files.length > 0)
+                        this.importReader.readAsText(event.target.files[0]);
+                }}
+                />
+                <a
+                ref={this.exportARef}
+                style={{display: "none"}}
+                />
             </div>
         );
     }
@@ -109,6 +133,18 @@ class App extends React.Component {
     save() {
         if (this.history.save(JSON.stringify(this.resume)))
             this.updatePreview();
+    }
+
+    export(fileName) {
+        const blob = new Blob([JSON.stringify(this.resume)], {type: "text"});
+        const a = this.exportARef.current;
+
+        if (a) {
+            a.href = URL.createObjectURL(blob);
+            a.download = fileName;
+            a.click();
+            URL.revokeObjectURL(a.href);
+        }
     }
 
     async download(fileName) {

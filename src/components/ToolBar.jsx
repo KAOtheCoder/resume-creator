@@ -75,6 +75,16 @@ class ToolBar extends React.Component {
                 icon="delete"
                 label="Clear"
                 />
+                <ToolBarButton
+                onClick={this.props.onImport}
+                icon="file_upload"
+                label="Import"
+                />
+                <ToolBarButton
+                onClick={this.props.onExport}
+                icon="save"
+                label="Export"
+                />
                 <a className="ToolBar-Link"
                 href="https://github.com/KAOtheCoder/resume-creator"
                 target="_blank"
